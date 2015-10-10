@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <string>
+#include <memory>
 
 #include <AlgorithmFactory.h>
 
@@ -37,12 +38,16 @@ int main(int argc, char **argv)
 		return -1; 
 	}
 	
-	if (false == boost::filesystem::exists( inputFile ));
+	//move to data parser
+	boost::filesystem::path path(inputFile.c_str());
+	if(false == boost::filesystem::is_regular_file(path))
 	{
-  		std::cerr << "Can't find file!" << std::endl;
+  		std::cerr << "Cant find file: " << path << std::endl;
+  		return -1;
 	}
 
-	
+	CAlgorithmFactory factory;
+	std::unique_ptr<IStrategy> algPtr( factory.create(algName, Matrix(), Matrix() ) );
 
 	return 0;
 }

@@ -1,3 +1,3 @@
 QAP 
 
-Solution of QAP problem for Metaheuristics and calculations biologically inspired classes
+Solution of QAP problem for Bio-inspired computing and systems classes
