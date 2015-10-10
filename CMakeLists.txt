@@ -13,8 +13,8 @@ enable_testing()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
+add_subdirectory(Utils)
 add_subdirectory(Algorithms)
-#add_subdirectory(Utils)
 
 add_executable(${PROJECT_NAME} main.cpp AlgorithmFactory.cpp)
 
