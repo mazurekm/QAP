@@ -6,3 +6,18 @@ IStrategy::IStrategy(const Matrix &flow, const Matrix &distance):
 {
 
 }
+
+std::vector<int> IStrategy::getResult() const
+{
+	return m_result;
+}
+
+double IStrategy::getCost() const
+{
+	return m_cost;
+}
+
+void IStrategy::computeCost()
+{
+
+}
