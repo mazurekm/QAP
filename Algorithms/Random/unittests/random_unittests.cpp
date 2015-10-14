@@ -18,4 +18,5 @@ BOOST_AUTO_TEST_CASE(test_random)
 	);
 
 	BOOST_CHECK(current != counter);
+	BOOST_CHECK_EQUAL(-1, ptr->getCost());
 }

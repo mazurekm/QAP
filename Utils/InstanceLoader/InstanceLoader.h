@@ -14,10 +14,10 @@ class InstanceLoader {
     void loadFlowsIntoInstance();
 
 public:
-    InstanceLoader(std::string &);
+    InstanceLoader(const std::string &);
     ~InstanceLoader();
     Instance load();
-    static Instance loadInstanceFromFile(std::string);
+    static Instance loadInstanceFromFile(const std::string &);
 };
 
 #endif

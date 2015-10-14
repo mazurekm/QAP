@@ -1,11 +1,9 @@
 #include <Utils/InstanceLoader/InstanceLoader.h>
 
-InstanceLoader::InstanceLoader(std::string & fileName) {
-    inputStream = std::ifstream(fileName);
-    instance = Instance();
+InstanceLoader::InstanceLoader(const std::string & fileName) : inputStream(fileName) {
 }
 
-Instance InstanceLoader::loadInstanceFromFile(std::string fileName) {
+Instance InstanceLoader::loadInstanceFromFile(const std::string &fileName) {
     return InstanceLoader(fileName).load();
 }
 
