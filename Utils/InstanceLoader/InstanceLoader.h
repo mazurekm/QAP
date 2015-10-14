@@ -2,11 +2,22 @@
 #define INSTANCE_LOADER_H
 
 #include <string>
+#include <fstream>
+#include <Utils/Instance/Instance.h>
 
 class InstanceLoader {
-    std::string instanceFileName;
+    std::ifstream inputStream;
+    Instance instance;
+    void loadMatrixIntoContainer(std::vector<std::vector<int>> &);
+    void loadDimensionSizeIntoInstance();
+    void loadDistancesIntoInstance();
+    void loadFlowsIntoInstance();
+
 public:
-    InstanceLoader(std::string);
+    InstanceLoader(std::string &);
+    ~InstanceLoader();
+    Instance load();
+    static Instance loadInstanceFromFile(std::string);
 };
 
 #endif
