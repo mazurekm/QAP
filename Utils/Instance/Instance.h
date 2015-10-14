@@ -3,12 +3,14 @@
 
 #include <vector>
 
+typedef std::vector<std::vector<int> > Matrix;
+
 class Instance {
     
 public:
     int dimensionSize;
-    std::vector<std::vector<int>> distances;
-    std::vector<std::vector<int>> flows;
+    Matrix distances;
+    Matrix flows;
 };
 
 #endif
