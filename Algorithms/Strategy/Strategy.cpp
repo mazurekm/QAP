@@ -24,7 +24,8 @@ void IStrategy::computeCost()
 	{
 		try
 		{
-			m_cost += m_distance.at(idx).at(idx+1) * m_flow.at(idx).at(idx+1);
+			m_cost += m_distance.at(m_result[idx]).at(m_result[idx+1]) * 
+			m_flow.at(m_result[idx]).at(m_result[idx+1]);
 		}
 		catch(std::out_of_range &ex)		
 		{
