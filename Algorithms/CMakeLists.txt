@@ -4,6 +4,7 @@ project(Algorithms)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Strategy)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Random)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/LocalSearch)
 
 add_library(${PROJECT_NAME} link.cpp)
 
