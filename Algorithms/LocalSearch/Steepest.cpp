@@ -11,7 +11,7 @@ CSteepest::CSteepest(const Matrix &flow, const Matrix &distance) :
 void CSteepest::perform()
 {
 	m_result = initPermutation(m_distance.size());
-	std::vector<int> currentSolution;
+	std::vector<int> currentSolution = m_result;
 	while(true)
 	{
 		for(unsigned i = 0; i<m_result.size(); ++i)
@@ -34,7 +34,7 @@ void CSteepest::perform()
 		{
 			break;
 		}
-		
+
 		m_result = currentSolution;
 	}
 }
