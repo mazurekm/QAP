@@ -7,3 +7,5 @@ add_library(${PROJECT_NAME} ConfManager.cpp)
 target_link_libraries( ${PROJECT_NAME} 
 					   ${Boost_FILESYSTEM_LIBRARY}
 	                   jsoncpp)
+
+add_subdirectory(unittests)
