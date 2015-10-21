@@ -33,3 +33,11 @@ void CCommandLineProcessor::validateInputFile() {
         throw -1;
     }
 }
+
+void CCommandLineProcessor::validateIterations() {
+     
+    if (false == variablesMap.count("iterations")) {
+        std::cerr << "You mest specify iterations!" << std::endl;
+        throw -1;
+    }
+}
