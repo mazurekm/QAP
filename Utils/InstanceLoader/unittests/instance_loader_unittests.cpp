@@ -61,6 +61,4 @@ BOOST_AUTO_TEST_CASE(test_load) {
     assertDimensionSizesAreEqual(ss, actualInstance);
     assertDistanceMatricesAreEqual(ss, actualInstance);
     assertFlowMatricesAreEqual(ss, actualInstance);
-
-    BOOST_CHECK(true);
 }

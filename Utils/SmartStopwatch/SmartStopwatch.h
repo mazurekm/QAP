@@ -3,8 +3,9 @@
 
 #include <Utils/Stopwatch/Stopwatch.h>
 
-class SmartStopwatch : public IStopWatch {
-
+class SmartStopwatch : public IStopwatch {
+public:
+    void measureExecutionTime(std::unique_ptr<IStrategy> const &, double);
 };
 
 #endif

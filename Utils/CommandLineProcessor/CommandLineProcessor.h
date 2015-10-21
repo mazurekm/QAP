@@ -16,6 +16,7 @@ public:
     std::unique_ptr<po::options_description> & getOptionsDescription();
     void validateHelp();
     void validateInputFile();
+    void validateIterations();
 };
 
 #endif

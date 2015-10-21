@@ -2,12 +2,18 @@
 #define STOPWATCH_H
 
 #include <chrono>
+#include <memory>
 #include <Algorithms/Strategy/Strategy.h>
 
-class IStopWatch {
-
+class IStopwatch {
+protected:
+    std::chrono::duration<double> timeElapsed;
+    long iterations;
 public:
-    std::chrono::duration<double> measureExecutionTime(IStrategy &);
+    IStopwatch();
+    virtual void measureExecutionTime(std::unique_ptr<IStrategy> const &, double) = 0;
+    std::chrono::duration<double> getTimeElapsed() const;
+    double getMeanTimePerIteration() const;
 };
 
 #endif
