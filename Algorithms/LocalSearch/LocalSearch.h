@@ -9,7 +9,6 @@ public:
 	ILocalSearch(const Matrix &flow, const Matrix &distance);
 	virtual void perform() = 0;
 protected:
-	void computeCost(); 
 	std::vector<int> initPermutation(unsigned N);
 };
 

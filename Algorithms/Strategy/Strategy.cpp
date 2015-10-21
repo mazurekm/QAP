@@ -21,6 +21,7 @@ double IStrategy::getCost() const
 
 void IStrategy::computeCost()
 {
+	m_cost = 0;
 	for(unsigned i = 0; i<m_result.size(); ++i) 
 	{
 		for(unsigned j = 0; j<m_result.size(); ++j)

@@ -5,4 +5,4 @@ add_library(${PROJECT_NAME} LocalSearch.cpp Greedy.cpp Steepest.cpp)
 
 target_link_libraries(${PROJECT_NAME} Strategy)
 
-#add_subdirectory(u0nittests)
+add_subdirectory(unittests)
