@@ -1,4 +1,27 @@
 {
-	"aaa":"bbb",
-	"ccc":4
+	"Data": [
+		"file1",
+		"file2",
+		"file3"
+	],
+	
+	"TimeLimit" : 10.0,
+
+	"Strategy": 
+	{
+		"Random":
+		{
+
+		},
+		
+		"Greedy":
+		{
+
+		}, 
+
+		"Steepest":
+		{
+
+		}
+	}
 }

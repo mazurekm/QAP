@@ -8,15 +8,25 @@
 
 namespace po = boost::program_options;
 
+
+class IncorrectArgumentException : public std::runtime_error
+{
+public:
+    IncorrectArgumentException() : 
+        std::runtime_error("Invalid command line argument")
+    {
+
+    }   
+};
+
 class CCommandLineProcessor {
     std::unique_ptr<po::options_description> description;
     po::variables_map variablesMap;
 public:
     CCommandLineProcessor(int, char **, std::unique_ptr<po::options_description> &);
     std::unique_ptr<po::options_description> & getOptionsDescription();
-    void validateHelp();
-    void validateInputFile();
-    void validateIterations();
+    void validateConfigFile();
+    bool validateHelp();
 };
 
 #endif

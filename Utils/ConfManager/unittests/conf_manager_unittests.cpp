@@ -4,11 +4,15 @@
 #include <Utils/ConfManager/ConfManager.h>
 
 #include <iostream>
+#include <unordered_set>
 
 BOOST_AUTO_TEST_CASE(conf_test)
 {
 	CConfManager mgr("Tests/test.json");
-	auto root = mgr.getRoot();
-	BOOST_CHECK_EQUAL(root["aaa"].asString(), "bbb");
-	BOOST_CHECK_EQUAL(root["ccc"].asInt(), 4);
+	auto files = mgr.getInputData();
+	auto sts = mgr.getStrategies();
+
+	BOOST_CHECK_EQUAL(files.size(), 3);
+	BOOST_CHECK_EQUAL(sts.size(), 3);
+	BOOST_CHECK_EQUAL(mgr.getTimeLimit(), 10.0);
 }

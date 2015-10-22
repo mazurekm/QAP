@@ -9,3 +9,4 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/LocalSearch)
 add_library(${PROJECT_NAME} link.cpp)
 
 target_link_libraries(${PROJECT_NAME} Random)
+target_link_libraries(${PROJECT_NAME} LocalSearch)
