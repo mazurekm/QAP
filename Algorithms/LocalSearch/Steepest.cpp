@@ -1,6 +1,8 @@
 #include "Steepest.h"
 #include <algorithm>
 #include <utility>
+#include <iostream>
+#include <iterator>
 
 CSteepest::CSteepest(const Matrix &flow, const Matrix &distance) :
 	ILocalSearch(flow, distance)
@@ -11,30 +13,38 @@ CSteepest::CSteepest(const Matrix &flow, const Matrix &distance) :
 void CSteepest::perform()
 {
 	m_result = initPermutation(m_distance.size());
-	std::vector<int> currentSolution = m_result;
+	computeCost();
+	double currentCost = 0;
+	auto swapedIdxs = std::make_pair(0,0);
+
 	while(true)
 	{
 		for(unsigned i = 0; i<m_result.size(); ++i)
 		{
 			for(unsigned j = i+1; j<m_result.size(); ++j)
 			{
-				double currentCost = m_cost;
+				currentCost = m_cost;
 				std::swap(m_result[i], m_result[j]);
 				computeCost();
 				if(m_cost < currentCost)
 				{
-					currentSolution = m_result;	
+					swapedIdxs = std::make_pair(i,j);
 				}
-				std::swap(m_result[i], m_result[j]);	
+				else
+				{
+					m_cost = currentCost;
+				}
+				std::swap(m_result[i], m_result[j]);
+
 			}
 			
 		}
 
-		if(m_result == currentSolution)
+		if(swapedIdxs.first == swapedIdxs.second)
 		{
 			break;
 		}
-
-		m_result = currentSolution;
+		std::swap(m_result[swapedIdxs.first], m_result[swapedIdxs.second]);
+		swapedIdxs = std::make_pair(0,0);
 	}
 }
