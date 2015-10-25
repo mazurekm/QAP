@@ -11,6 +11,7 @@ CGreedy::CGreedy(const Matrix &flow, const Matrix &distance) :
 void CGreedy::perform()
 {
 	m_result = initPermutation(m_distance.size());
+	computeCost();
 	bool foundBetter;
 	
 	do

@@ -12,5 +12,8 @@ target_link_libraries (${PROJECT_NAME}
 		${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} )
 
 target_link_libraries(${PROJECT_NAME} Random)
+target_link_libraries(${PROJECT_NAME} Utils)
 
 add_test(${PROJECT_NAME} ${TEST_DIR}/${PROJECT_NAME})
+
+file(COPY test.dat DESTINATION ${TEST_DIR})

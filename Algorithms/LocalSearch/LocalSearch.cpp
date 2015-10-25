@@ -16,12 +16,12 @@ std::vector<int> ILocalSearch::initPermutation(unsigned N)
 	std::generate_n(
 			std::back_inserter(result), 
 			N, 
-			[&]()->int{ return ++current; }
+			[&]()->int{ return current++; }
 	);
 
 	std::random_device rd;
     std::mt19937 randomGen(rd());
-	std::shuffle(m_result.begin(), m_result.end(), randomGen);
-
+	std::shuffle(result.begin(), result.end(), randomGen);
+	
 	return result;
 }

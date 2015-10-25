@@ -15,7 +15,7 @@ void CRandom::perform()
 	std::generate_n(
 			std::back_inserter(m_result), 
 			m_distance.size(), 
-			[&]()->int{ return ++current; }
+			[&]()->int{ return current++; }
 	);
 
 	std::random_device rd;
