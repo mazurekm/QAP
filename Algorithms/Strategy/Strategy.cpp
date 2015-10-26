@@ -1,10 +1,12 @@
 #include "Strategy.h"
 #include <stdexcept>
 #include <iostream>
+#include <utility>
 
 IStrategy::IStrategy(const Matrix &flow, const Matrix &distance):
 	m_flow(flow),
-	m_distance(distance)
+	m_distance(distance),
+	m_cost(0)
 {
 
 }
@@ -19,12 +21,10 @@ double IStrategy::getCost() const
 	return m_cost;
 }
 
-void IStrategy::computeCost()
-{
-	m_cost = 0;
-	for(unsigned i = 0; i<m_result.size(); ++i) 
+void IStrategy::computeCost() {
+	for (size_t i = 0; i<m_result.size(); ++i) 
 	{
-		for(unsigned j = 0; j<m_result.size(); ++j)
+		for (size_t j = i; j<m_result.size(); ++j)
 		{
 			try
 			{
@@ -37,4 +37,34 @@ void IStrategy::computeCost()
 			}
 		}
 	}
+}
+
+// computeCost should be called before swap
+void IStrategy::computeCost(std::pair<int, int> & swapIndicesPair) {
+	substractFromCostAllArcsBoundWithPair(swapIndicesPair);
+	std::swap(m_result[swapIndicesPair.first], m_result[swapIndicesPair.second]);
+	addToCostAllArcsBoundWithPair(swapIndicesPair);	
+	std::swap(m_result[swapIndicesPair.first], m_result[swapIndicesPair.second]);
+}
+
+void IStrategy::substractFromCostAllArcsBoundWithPair(std::pair<int, int> & swapIndicesPair) {
+	for (size_t i = 0; i < m_result.size(); ++i) {
+		m_cost -= m_distance.at(swapIndicesPair.first).at(i) * m_flow.at(m_result[swapIndicesPair.first]).at(m_result[i]);
+	}
+	for (size_t i = 0; i < m_result.size(); ++i) {
+		m_cost -= m_distance.at(swapIndicesPair.second).at(i) * m_flow.at(m_result[swapIndicesPair.second]).at(m_result[i]);
+	}
+	m_cost += m_distance.at(swapIndicesPair.first).at(swapIndicesPair.second)
+			  * m_flow.at(m_result[swapIndicesPair.first]).at(m_result[swapIndicesPair.second]);
+}
+
+void IStrategy::addToCostAllArcsBoundWithPair(std::pair<int, int> & swapIndicesPair) {
+	for (size_t i = 0; i < m_result.size(); ++i) {
+		m_cost += m_distance.at(swapIndicesPair.first).at(i) * m_flow.at(m_result[swapIndicesPair.first]).at(m_result[i]);
+	}
+	for (size_t i = 0; i < m_result.size(); ++i) {
+		m_cost += m_distance.at(swapIndicesPair.second).at(i) * m_flow.at(m_result[swapIndicesPair.second]).at(m_result[i]);
+	}
+	m_cost -= m_distance.at(swapIndicesPair.first).at(swapIndicesPair.second)
+			  * m_flow.at(m_result[swapIndicesPair.first]).at(m_result[swapIndicesPair.second]);
 }

@@ -17,12 +17,15 @@ public:
 
 protected:
 	virtual void computeCost();
+	virtual void computeCost(std::pair<int, int> &);
+	void substractFromCostAllArcsBoundWithPair(std::pair<int, int> &);
+	void addToCostAllArcsBoundWithPair(std::pair<int, int> &);
 
 	Matrix m_flow;
 	Matrix m_distance;
 
 	std::vector<int> m_result;
-	double m_cost;
+	long m_cost;
 };
 
 #endif
