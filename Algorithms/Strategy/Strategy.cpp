@@ -22,6 +22,7 @@ double IStrategy::getCost() const
 }
 
 void IStrategy::computeCost() {
+	m_cost = 0;
 	for (size_t i = 0; i<m_result.size(); ++i) 
 	{
 		for (size_t j = i; j<m_result.size(); ++j)

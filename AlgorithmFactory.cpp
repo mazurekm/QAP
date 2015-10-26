@@ -13,11 +13,11 @@ IStrategy *CAlgorithmFactory::create(const std::string &name,
 	{
 		return new CRandom(flow, distance);
 	}
-	else if("Greedy")
+	else if("Greedy" == name)
 	{
 		return new CGreedy(flow, distance);
 	}
-	else if("CSteepest")
+	else if("Steepest" == name)
 	{
 		return new CSteepest(flow, distance);	
 	}

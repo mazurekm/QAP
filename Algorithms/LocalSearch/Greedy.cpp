@@ -14,7 +14,6 @@ void CGreedy::perform()
 	computeCost();
 	bool foundBetter;
 	auto swapedIdxs = std::make_pair(0,0);
-	
 	do
 	{
 		foundBetter = false;
@@ -30,15 +29,15 @@ void CGreedy::perform()
 				long currentCost = m_cost;
 				swapedIdxs = std::make_pair(i, j);
 				computeCost(swapedIdxs);
-				if(m_cost > currentCost)
-				{
-					m_cost = currentCost;
-				}
-				else
+				if(m_cost < currentCost)
 				{
 					std::swap(m_result[i], m_result[j]);
 					foundBetter = true;
 					break;
+				}
+				else
+				{
+					m_cost = currentCost;
 				}
 			}
 		}

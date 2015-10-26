@@ -1,10 +1,16 @@
 #include <Utils/InstanceLoader/InstanceLoader.h>
+#include <iostream>
 
-InstanceLoader::InstanceLoader(const std::string & fileName) : inputStream(fileName) {
+InstanceLoader::InstanceLoader(const std::string & fileName) : inputStream(fileName, std::ifstream::in) {
+    if (inputStream.fail()) {
+        throw DataFileNotFoundException();
+    }
 }
 
 Instance InstanceLoader::loadInstanceFromFile(const std::string &fileName) {
-    return InstanceLoader(fileName).load();
+    InstanceLoader instanceLoader(fileName);
+    auto retVal = instanceLoader.load();
+    return retVal;
 }
 
 Instance InstanceLoader::load() {

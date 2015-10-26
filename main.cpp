@@ -10,6 +10,23 @@
 #include <Utils/ConfManager/ConfManager.h>
 #include <Utils/InstanceLoader/InstanceLoader.h>
 
+void processAllAlgorithms(CAlgorithmFactory & algorithmFactory, std::unique_ptr<CConfManager> const & confManager) {
+	std::unique_ptr<IStopwatch> stopWatchPtr(new SmartStopwatch());
+	for (auto & instanceFilename : confManager->getInputData()) {
+		std::cout << "--------------- " << instanceFilename << " ---------------" << std::endl;
+		for (auto & strategy : confManager->getStrategies()) {
+			std::cout << strategy << std::endl;
+			auto instance = InstanceLoader::loadInstanceFromFile(instanceFilename);
+			std::unique_ptr<IStrategy> currentAlgorithm(
+		        algorithmFactory.create(strategy, instance.flows, instance.distances)
+		    );
+		    confManager->getTimeLimit();
+			stopWatchPtr->measureExecutionTime(currentAlgorithm, confManager->getTimeLimit());
+			std::cout << strategy << " " <<  stopWatchPtr->getTimeElapsed().count() << " " << currentAlgorithm->getCost() << std::endl;
+		}
+	}
+}
+
 int main(int argc, char **argv)
 {
 
@@ -56,20 +73,7 @@ int main(int argc, char **argv)
 	}
 
 	CAlgorithmFactory factory;
-	std::unique_ptr<IStopwatch> stopWatchPtr(new SmartStopwatch());
-	std::list<std::unique_ptr<IStrategy> > strategyList;
-
-	for(auto & instance : confManager->getInputData())
-	{
-		for(auto & strategy : confManager->getStrategies())
-		{
-			strategyList.push_back(
-				std::unique_ptr<IStrategy>(
-					factory.create(strategy, Matrix(), Matrix())
-				)
-			);
-		}
-	}
+	processAllAlgorithms(factory, confManager);	
 
 	std::clog << "Done :)" << std::endl;
 	return 0;

@@ -4,6 +4,16 @@
 #include <string>
 #include <fstream>
 #include <Utils/Instance/Instance.h>
+#include <stdexcept>
+
+class DataFileNotFoundException : public std::runtime_error
+{
+public:
+    DataFileNotFoundException() : std::runtime_error("Could not find requested data file")  
+    {
+
+    }
+};
 
 class InstanceLoader {
     std::ifstream inputStream;
