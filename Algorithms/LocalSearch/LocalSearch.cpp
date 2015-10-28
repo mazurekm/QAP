@@ -25,3 +25,10 @@ std::vector<int> ILocalSearch::initPermutation(unsigned N)
 	
 	return result;
 }
+
+void ILocalSearch::perform() {
+	savePreviousResult();
+	m_result = initPermutation(m_distance.size());
+	performWithin();
+	restorePreviousResultIfItWasBetter();
+}

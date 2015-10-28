@@ -5,9 +5,9 @@
 
 class CSteepest : public ILocalSearch
 {
+    void performWithin();
 public:
 	CSteepest(const Matrix &flow, const Matrix &distance);
-	void perform();
 };
 
 #endif

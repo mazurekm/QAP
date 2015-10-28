@@ -7,8 +7,9 @@ class ILocalSearch : public IStrategy
 {
 public:
 	ILocalSearch(const Matrix &flow, const Matrix &distance);
-	virtual void perform() = 0;
+	virtual void perform();
 protected:
+    virtual void performWithin() = 0;
 	std::vector<int> initPermutation(unsigned N);
 };
 

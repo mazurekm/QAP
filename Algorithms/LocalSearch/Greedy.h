@@ -5,9 +5,9 @@
 
 class CGreedy : public ILocalSearch
 {
+    void performWithin();
 public:
 	CGreedy(const Matrix &flow, const Matrix &distance);
-	void perform();
 };
 
 #endif

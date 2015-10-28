@@ -2,11 +2,12 @@
 #include <stdexcept>
 #include <iostream>
 #include <utility>
+#include <climits>
 
 IStrategy::IStrategy(const Matrix &flow, const Matrix &distance):
 	m_flow(flow),
 	m_distance(distance),
-	m_cost(0)
+	m_cost(LONG_MAX)
 {
 
 }
@@ -16,7 +17,7 @@ std::vector<int> IStrategy::getResult() const
 	return m_result;
 }
 
-double IStrategy::getCost() const
+long IStrategy::getCost() const
 {
 	return m_cost;
 }
@@ -68,4 +69,16 @@ void IStrategy::addToCostAllArcsBoundWithPair(std::pair<int, int> & swapIndicesP
 	}
 	m_cost -= m_distance.at(swapIndicesPair.first).at(swapIndicesPair.second)
 			  * m_flow.at(m_result[swapIndicesPair.first]).at(m_result[swapIndicesPair.second]);
+}
+
+void IStrategy::savePreviousResult() {
+	m_prevResult = m_result;
+	m_prevCost = m_cost;
+}
+
+void IStrategy::restorePreviousResultIfItWasBetter() {
+	if (m_prevCost < m_cost) {
+		m_result = m_prevResult;
+		m_cost = m_prevCost;
+	}
 }

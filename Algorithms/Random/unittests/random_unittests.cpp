@@ -24,15 +24,18 @@ BOOST_AUTO_TEST_CASE(test_random)
 
 BOOST_AUTO_TEST_CASE(test_random_with_instance)
 {
-	InstanceLoader loader("Tests/test.dat");
-	auto input = loader.load();
+	auto input = InstanceLoader::loadInstanceFromFile("test.dat");
 	std::unique_ptr<IStrategy> ptr( new CRandom (input.flows, input.distances ));
-	ptr->perform();
-	std::ostream_iterator<int> beginIter(std::cout, " ");
+	long cost = LONG_MAX;
 	
+	for (int i = 0; i < 1000; ++i) {
+		ptr->perform();
+		BOOST_CHECK(ptr->getCost() <= cost);
+		cost = ptr->getCost();
+	}
+
+	std::ostream_iterator<int> beginIter(std::cout, " ");
 	auto res = ptr->getResult();
 	std::copy(res.begin(), res.end(), beginIter);
-	std::cout << ptr->getCost();
-
-	BOOST_CHECK(ptr->getCost()!=0);
+	std::cout << ptr->getCost() << std::endl;
 }

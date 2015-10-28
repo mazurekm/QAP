@@ -8,9 +8,8 @@ CSteepest::CSteepest(const Matrix &flow, const Matrix &distance) :
 {
 }
 
-void CSteepest::perform()
+void CSteepest::performWithin()
 {
-	m_result = initPermutation(m_distance.size());
 	long currentCost = 0;
 	computeCost();
 	auto swapedIdxs = std::make_pair(0,0);
@@ -30,9 +29,7 @@ void CSteepest::perform()
 				{
 					m_cost = currentCost;
 				}
-
 			}
-			
 		}
 
 		if(swapedIdxs.first == swapedIdxs.second)

@@ -8,9 +8,8 @@ CGreedy::CGreedy(const Matrix &flow, const Matrix &distance) :
 
 }
 
-void CGreedy::perform()
+void CGreedy::performWithin()
 {
-	m_result = initPermutation(m_distance.size());
 	computeCost();
 	bool foundBetter;
 	auto swapedIdxs = std::make_pair(0,0);
