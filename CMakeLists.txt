@@ -24,3 +24,6 @@ target_link_libraries(${PROJECT_NAME}
 					  ${Boost_SYSTEM_LIBRARY}
 					  Algorithms
                       Utils)
+
+file(COPY config.json DESTINATION ${PROJECT_BINARY_DIR})
+file(COPY Resources DESTINATION ${PROJECT_BINARY_DIR})

@@ -1,8 +1,7 @@
 {
 	"Data": [
-		"file1",
-		"file2",
-		"file3"
+		["Resources/tai12a.dat","Resources/tai12a.sln"],
+		["Resources/tai15a.dat","Resources/tai15a.sln"]
 	],
 	
 	"TimeLimit" : 10.0,

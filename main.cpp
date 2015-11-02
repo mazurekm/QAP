@@ -19,6 +19,8 @@ void processAllAlgorithms(CAlgorithmFactory & algorithmFactory, std::unique_ptr<
 
 	for(auto & instanceFilename : confManager->getInputData())
 	{
+		std::clog << "Reading ";
+		std::clog << instanceFilename.first << " " << instanceFilename.second << std::endl;
 		instanceMap[instanceFilename.first] = InstanceLoader::loadInstanceFromFile(
 									instanceFilename.first, instanceFilename.second
 								);
@@ -47,7 +49,7 @@ void processAllAlgorithms(CAlgorithmFactory & algorithmFactory, std::unique_ptr<
 			std::copy(result.begin(), result.end(), beginIter);
 			std::clog << std::endl;
 
-			csv.add(time, cost);
+			csv.add(time, cost, cost - instance.second.optimalSolution);
 		}
 		csv.toFile(strategy+".csv");
 		csv.clear();

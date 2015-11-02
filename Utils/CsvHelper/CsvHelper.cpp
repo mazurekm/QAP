@@ -11,7 +11,7 @@ CCsvHelper::CCsvHelper(const char fieldDelimiter, const std::string &unescapeStr
 std::string CCsvHelper::getText()
 {
 	std::string text = m_osst.get_text();
-    boost::replace_all(text, m_osst.get_escape_str(), m_osst.get_delimiter());
+    //boost::replace_all(text, m_osst.get_escape_str(), m_osst.get_delimiter());
     return text;
 }
 
