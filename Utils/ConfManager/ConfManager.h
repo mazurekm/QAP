@@ -3,6 +3,7 @@
 
 #include <string>
 #include <unordered_set>
+#include <unordered_map>
 
 #include <json/json.h>
 #include <json/reader.h>
@@ -34,7 +35,7 @@ public:
 	Json::Value getRoot() const;
 
 	std::unordered_set<std::string> getStrategies();
-	std::unordered_set<std::string> getInputData();
+	std::unordered_map<std::string, std::string> getInputData();
 	double getTimeLimit() const;
 	Json::Value getAlgParameters(const std::string &algName);
 

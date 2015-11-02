@@ -17,3 +17,4 @@ target_link_libraries(${PROJECT_NAME} Utils)
 add_test(${PROJECT_NAME} ${TEST_DIR}/${PROJECT_NAME})
 
 file(COPY test.dat DESTINATION ${TEST_DIR})
+file(COPY test.sln DESTINATION ${TEST_DIR})

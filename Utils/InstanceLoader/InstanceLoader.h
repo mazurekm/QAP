@@ -3,8 +3,21 @@
 
 #include <string>
 #include <fstream>
-#include <Utils/Instance/Instance.h>
 #include <stdexcept>
+#include <vector>
+
+
+typedef std::vector<std::vector<int> > Matrix;
+
+struct Instance {
+
+    int dimensionSize;
+    Matrix distances;
+    Matrix flows;
+    double optimalSolution;
+    std::vector<int> optimalPermutation;
+};
+
 
 class DataFileNotFoundException : public std::runtime_error
 {
@@ -17,17 +30,19 @@ public:
 
 class InstanceLoader {
     std::ifstream inputStream;
+    std::ifstream solutionStream;
     Instance instance;
     void loadMatrixIntoContainer(std::vector<std::vector<int>> &);
     void loadDimensionSizeIntoInstance();
     void loadDistancesIntoInstance();
     void loadFlowsIntoInstance();
+    void loadOptimalSolution();
 
 public:
-    InstanceLoader(const std::string &);
+    InstanceLoader(const std::string &, const std::string &);
     ~InstanceLoader();
     Instance load();
-    static Instance loadInstanceFromFile(const std::string &);
+    static Instance loadInstanceFromFile(const std::string &, const std::string &);
 };
 
 #endif

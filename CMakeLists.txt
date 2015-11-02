@@ -13,6 +13,7 @@ enable_testing()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/External/jsoncpp/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/External)
 
 add_subdirectory(External)
 add_subdirectory(Algorithms)

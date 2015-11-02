@@ -16,6 +16,9 @@ const char * TestContent = "3\n"
                            "5 4 6\n"
                            "6 4 5\n";
 
+const char *solutionContent = "3 234\n"
+                              "0 1 2";
+
 void assertDimensionSizesAreEqual(std::stringstream & ss, Instance & actualInstance) {
     int buf;
     ss >> buf;
@@ -50,13 +53,21 @@ void assertFlowMatricesAreEqual(std::stringstream & ss, Instance & actualInstanc
 
 BOOST_AUTO_TEST_CASE(test_load) {
     std::ofstream outFile("test_instance.txt", std::ofstream::out);
+    std::ofstream solOutFile("solution_test_instance", std::ofstream::out);
     outFile << TestContent;
+    solOutFile << solutionContent;
     outFile.close();
-    Instance actualInstance = InstanceLoader::loadInstanceFromFile("test_instance.txt");
+    solOutFile.close();
+    Instance actualInstance = InstanceLoader::loadInstanceFromFile("test_instance.txt", 
+                                                                   "solution_test_instance");
     std::remove("test_instance.txt");
+    std::remove("solution_test_instance");
 
     std::stringstream ss;
     ss << TestContent;
+
+    BOOST_CHECK_EQUAL(234, actualInstance.optimalSolution);
+    BOOST_CHECK_EQUAL(3, actualInstance.optimalPermutation.size());
 
     assertDimensionSizesAreEqual(ss, actualInstance);
     assertDistanceMatricesAreEqual(ss, actualInstance);

@@ -40,15 +40,15 @@ std::unordered_set<std::string> CConfManager::getStrategies()
 	return result;
 }
 
-std::unordered_set<std::string> CConfManager::getInputData()
+std::unordered_map<std::string, std::string> CConfManager::getInputData()
 {
 	auto data = m_root["Data"];
-	std::unordered_set<std::string> result;
+	std::unordered_map<std::string, std::string> result;
 	for(auto & obj : data)
 	{
-		if(true == obj.isString())
+		if(true == obj[0].isString())
 		{
-			result.insert(obj.asString());
+			result[obj[0].asString()] = obj[1].asString();
 		}
 	}
 	return result;
