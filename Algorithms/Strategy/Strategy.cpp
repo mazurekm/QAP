@@ -26,11 +26,11 @@ void IStrategy::computeCost() {
 	m_cost = 0;
 	for (size_t i = 0; i<m_result.size(); ++i) 
 	{
-		for (size_t j = i; j<m_result.size(); ++j)
+		for (size_t j = 0; j<m_result.size(); ++j)
 		{
 			try
 			{
-				m_cost += m_distance.at(i).at(j) * m_flow.at(m_result[i]).at(m_result[j]);
+				m_cost += m_distance.at(m_result[i]).at(m_result[j]) * m_flow.at(i).at(j);
 			}
 			catch(std::out_of_range & ex)
 			{
@@ -51,24 +51,23 @@ void IStrategy::computeCost(std::pair<int, int> & swapIndicesPair) {
 
 void IStrategy::substractFromCostAllArcsBoundWithPair(std::pair<int, int> & swapIndicesPair) {
 	for (size_t i = 0; i < m_result.size(); ++i) {
-		m_cost -= m_distance.at(swapIndicesPair.first).at(i) * m_flow.at(m_result[swapIndicesPair.first]).at(m_result[i]);
+		m_cost -= m_distance.at(m_result[swapIndicesPair.first]).at(m_result[i]) * m_flow.at(swapIndicesPair.first).at(i);
+		m_cost -= m_distance.at(m_result[i]).at(m_result[swapIndicesPair.first]) * m_flow.at(i).at(swapIndicesPair.first);
 	}
 	for (size_t i = 0; i < m_result.size(); ++i) {
-		m_cost -= m_distance.at(swapIndicesPair.second).at(i) * m_flow.at(m_result[swapIndicesPair.second]).at(m_result[i]);
+		m_cost -= m_distance.at(m_result[swapIndicesPair.second]).at(m_result[i]) * m_flow.at(swapIndicesPair.second).at(i);
+		m_cost -= m_distance.at(m_result[i]).at(m_result[swapIndicesPair.second]) * m_flow.at(i).at(swapIndicesPair.second);
 	}
-	m_cost += m_distance.at(swapIndicesPair.first).at(swapIndicesPair.second)
-			  * m_flow.at(m_result[swapIndicesPair.first]).at(m_result[swapIndicesPair.second]);
 }
 
 void IStrategy::addToCostAllArcsBoundWithPair(std::pair<int, int> & swapIndicesPair) {
 	for (size_t i = 0; i < m_result.size(); ++i) {
-		m_cost += m_distance.at(swapIndicesPair.first).at(i) * m_flow.at(m_result[swapIndicesPair.first]).at(m_result[i]);
-	}
+		m_cost += m_distance.at(m_result[swapIndicesPair.first]).at(m_result[i]) * m_flow.at(swapIndicesPair.first).at(i);
+		m_cost += m_distance.at(m_result[i]).at(m_result[swapIndicesPair.first]) * m_flow.at(i).at(swapIndicesPair.first);	}
 	for (size_t i = 0; i < m_result.size(); ++i) {
-		m_cost += m_distance.at(swapIndicesPair.second).at(i) * m_flow.at(m_result[swapIndicesPair.second]).at(m_result[i]);
+		m_cost += m_distance.at(m_result[swapIndicesPair.second]).at(m_result[i]) * m_flow.at(swapIndicesPair.second).at(i);
+		m_cost += m_distance.at(m_result[i]).at(m_result[swapIndicesPair.second]) * m_flow.at(i).at(swapIndicesPair.second);
 	}
-	m_cost -= m_distance.at(swapIndicesPair.first).at(swapIndicesPair.second)
-			  * m_flow.at(m_result[swapIndicesPair.first]).at(m_result[swapIndicesPair.second]);
 }
 
 void IStrategy::savePreviousResult() {

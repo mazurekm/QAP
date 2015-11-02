@@ -70,6 +70,6 @@ BOOST_AUTO_TEST_CASE(test_load) {
     BOOST_CHECK_EQUAL(3, actualInstance.optimalPermutation.size());
 
     assertDimensionSizesAreEqual(ss, actualInstance);
-    assertDistanceMatricesAreEqual(ss, actualInstance);
     assertFlowMatricesAreEqual(ss, actualInstance);
+    assertDistanceMatricesAreEqual(ss, actualInstance);
 }

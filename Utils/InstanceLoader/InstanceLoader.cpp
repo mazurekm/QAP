@@ -27,8 +27,8 @@ Instance InstanceLoader::loadInstanceFromFile (
 
 Instance InstanceLoader::load() {
     loadDimensionSizeIntoInstance();
-    loadDistancesIntoInstance();
     loadFlowsIntoInstance();
+    loadDistancesIntoInstance();
     loadOptimalSolution();
     return instance;
 }

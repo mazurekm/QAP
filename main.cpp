@@ -41,6 +41,11 @@ void processAllAlgorithms(CAlgorithmFactory & algorithmFactory, std::unique_ptr<
 			double time = stopWatchPtr->getTimeElapsed().count();
 
 			std::clog << "Instance " <<instance.first <<": " <<time << " " << cost << std::endl;
+			std::ostream_iterator<int> beginIter(std::clog, " ");
+			auto result = currentAlgorithm->getResult();
+			std::clog << "Found solution: "; 
+			std::copy(result.begin(), result.end(), beginIter);
+			std::clog << std::endl;
 
 			csvHelper.add(time, cost);
 		}
