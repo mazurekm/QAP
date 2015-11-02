@@ -14,8 +14,8 @@
 void processAllAlgorithms(CAlgorithmFactory & algorithmFactory, std::unique_ptr<CConfManager> const & confManager) {
 	
 	std::unique_ptr<IStopwatch> stopWatchPtr(new SmartStopwatch());
-	CCsvHelper csvHelper;
 	std::map<std::string, Instance> instanceMap;
+	CCsvHelper csv;
 
 	for(auto & instanceFilename : confManager->getInputData())
 	{
@@ -42,8 +42,10 @@ void processAllAlgorithms(CAlgorithmFactory & algorithmFactory, std::unique_ptr<
 
 			std::clog << "Instance " <<instance.first <<": " <<time << " " << cost << std::endl;
 
-			csvHelper.add(time, cost);
+			csv.add(time, cost);
 		}
+		csv.toFile(strategy+".csv");
+		csv.clear();
 	}
 }
 

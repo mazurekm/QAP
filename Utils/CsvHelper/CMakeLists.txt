@@ -4,3 +4,5 @@ project(CsvHelper)
 add_library(${PROJECT_NAME} CsvHelper.cpp)
 
 target_link_libraries(${PROJECT_NAME} minicsv)
+
+add_subdirectory(unittests)
