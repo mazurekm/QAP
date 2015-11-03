@@ -40,7 +40,7 @@ void processAllAlgorithms(CAlgorithmFactory & algorithmFactory, std::unique_ptr<
 			);
 
 			stopWatchPtr->measureExecutionTime(currentAlgorithm, confManager->getTimeLimit());
-			double cost = currentAlgorithm->getCost();
+			auto cost = currentAlgorithm->getCost();
 			double time = stopWatchPtr->getMeanTimePerIteration();
 
 			std::clog << "Instance " <<instance.first <<": " <<time << " " << cost << std::endl;
