@@ -42,14 +42,14 @@ void IStrategy::computeCost() {
 }
 
 // computeCost should be called before swap
-void IStrategy::computeCost(std::pair<int, int> & swapIndicesPair) {
+void IStrategy::computeCost(const std::pair<int, int> & swapIndicesPair) {
 	substractFromCostAllArcsBoundWithPair(swapIndicesPair);
 	std::swap(m_result[swapIndicesPair.first], m_result[swapIndicesPair.second]);
 	addToCostAllArcsBoundWithPair(swapIndicesPair);	
 	std::swap(m_result[swapIndicesPair.first], m_result[swapIndicesPair.second]);
 }
 
-void IStrategy::substractFromCostAllArcsBoundWithPair(std::pair<int, int> & swapIndicesPair) {
+void IStrategy::substractFromCostAllArcsBoundWithPair(const std::pair<int, int> & swapIndicesPair) {
 	for (size_t i = 0; i < m_result.size(); ++i) {
 		m_cost -= m_distance.at(m_result[swapIndicesPair.first]).at(m_result[i]) * m_flow.at(swapIndicesPair.first).at(i);
 		m_cost -= m_distance.at(m_result[i]).at(m_result[swapIndicesPair.first]) * m_flow.at(i).at(swapIndicesPair.first);
@@ -60,7 +60,7 @@ void IStrategy::substractFromCostAllArcsBoundWithPair(std::pair<int, int> & swap
 	}
 }
 
-void IStrategy::addToCostAllArcsBoundWithPair(std::pair<int, int> & swapIndicesPair) {
+void IStrategy::addToCostAllArcsBoundWithPair(const std::pair<int, int> & swapIndicesPair) {
 	for (size_t i = 0; i < m_result.size(); ++i) {
 		m_cost += m_distance.at(m_result[swapIndicesPair.first]).at(m_result[i]) * m_flow.at(swapIndicesPair.first).at(i);
 		m_cost += m_distance.at(m_result[i]).at(m_result[swapIndicesPair.first]) * m_flow.at(i).at(swapIndicesPair.first);	}

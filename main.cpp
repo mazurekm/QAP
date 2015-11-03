@@ -28,6 +28,7 @@ void processAllAlgorithms(CAlgorithmFactory & algorithmFactory, std::unique_ptr<
 
 	for(auto & strategy : confManager->getStrategies())
 	{
+		csv.add("size", "time", "cost", "optimum");
 		std::clog << "--------------- " << strategy << " ---------------" << std::endl;
 		for(auto & instance : instanceMap) 
 		{
@@ -40,7 +41,7 @@ void processAllAlgorithms(CAlgorithmFactory & algorithmFactory, std::unique_ptr<
 
 			stopWatchPtr->measureExecutionTime(currentAlgorithm, confManager->getTimeLimit());
 			double cost = currentAlgorithm->getCost();
-			double time = stopWatchPtr->getTimeElapsed().count();
+			double time = stopWatchPtr->getMeanTimePerIteration();
 
 			std::clog << "Instance " <<instance.first <<": " <<time << " " << cost << std::endl;
 			std::ostream_iterator<int> beginIter(std::clog, " ");
@@ -49,7 +50,9 @@ void processAllAlgorithms(CAlgorithmFactory & algorithmFactory, std::unique_ptr<
 			std::copy(result.begin(), result.end(), beginIter);
 			std::clog << std::endl;
 
-			csv.add(time, cost, cost - instance.second.optimalSolution);
+			csv.add(instance.second.dimensionSize,
+				    time, cost, 
+				    cost - instance.second.optimalSolution);
 		}
 		csv.toFile(strategy+".csv");
 		csv.clear();

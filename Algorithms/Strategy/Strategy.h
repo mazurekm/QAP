@@ -17,9 +17,9 @@ public:
 
 protected:
 	virtual void computeCost();
-	virtual void computeCost(std::pair<int, int> &);
-	void substractFromCostAllArcsBoundWithPair(std::pair<int, int> &);
-	void addToCostAllArcsBoundWithPair(std::pair<int, int> &);
+	virtual void computeCost(const std::pair<int, int> &);
+	void substractFromCostAllArcsBoundWithPair(const std::pair<int, int> &);
+	void addToCostAllArcsBoundWithPair(const std::pair<int, int> &);
 	void restorePreviousResultIfItWasBetter();
 	void savePreviousResult();
 
