@@ -5,12 +5,16 @@
 
 class ILocalSearch : public IStrategy
 {
+    long m_performNumber;
 public:
 	ILocalSearch(const Matrix &flow, const Matrix &distance);
 	virtual void perform();
+    double getMeanSteps() const;
+    double getMeanReviewedSolutions() const;
 protected:
     virtual void performWithin() = 0;
 	std::vector<int> initPermutation(unsigned N);
+    long m_steps, m_reviewedSolutions;
 };
 
 #endif

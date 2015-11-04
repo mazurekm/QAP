@@ -16,7 +16,7 @@ public:
 
 	template <typename T, typename ... Params> void add(T value, Params ... params)
 	{
-		m_osst << value; //<< m_osst.get_delimiter().at(0);
+		m_osst << value;
 		add(params... );
 	}
 

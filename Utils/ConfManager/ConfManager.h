@@ -37,6 +37,7 @@ public:
 	std::unordered_set<std::string> getStrategies();
 	std::unordered_map<std::string, std::string> getInputData();
 	double getTimeLimit() const;
+	long getIterationLimit() const;
 	Json::Value getAlgParameters(const std::string &algName);
 
 private:

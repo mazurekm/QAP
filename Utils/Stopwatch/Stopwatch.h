@@ -8,10 +8,11 @@
 class IStopwatch {
 protected:
     std::chrono::duration<double> timeElapsed;
-    long iterations;
+    long iterations, stepSum, solutionsReviewedSum;
 public:
     IStopwatch();
     virtual void measureExecutionTime(std::unique_ptr<IStrategy> const &, double) = 0;
+    virtual void measureExecutionTime(std::unique_ptr<IStrategy> const &, long) = 0;
     std::chrono::duration<double> getTimeElapsed() const;
     double getMeanTimePerIteration() const;
 };

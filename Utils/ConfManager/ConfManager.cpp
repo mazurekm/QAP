@@ -67,3 +67,7 @@ double CConfManager::getTimeLimit() const
 {
 	return m_root["TimeLimit"].asDouble();
 }
+
+long CConfManager::getIterationLimit() const {
+	return m_root["IterationLimit"].asInt();
+}

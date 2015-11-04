@@ -17,11 +17,13 @@ void CSteepest::performWithin()
 	
 	while(true)
 	{
+		++m_steps;
 		for (size_t i = 0; i<m_result.size(); ++i)
 		{
 			for (size_t j = i+1; j<m_result.size(); ++j)
 			{
 				computeCost(std::make_pair(i,j));
+				++m_reviewedSolutions;
 				if(m_cost < currentCost)
 				{
 					swapedIdxs = std::make_pair(i, j);

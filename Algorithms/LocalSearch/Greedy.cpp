@@ -15,6 +15,7 @@ void CGreedy::performWithin()
 	auto swapedIdxs = std::make_pair(0,0);
 	do
 	{
+		++m_steps;
 		foundBetter = false;
 		for (size_t i = 0; i<m_result.size(); ++i)
 		{
@@ -28,6 +29,7 @@ void CGreedy::performWithin()
 				long currentCost = m_cost;
 				swapedIdxs = std::make_pair(i, j);
 				computeCost(swapedIdxs);
+				++m_reviewedSolutions;
 				if(m_cost < currentCost)
 				{
 					std::swap(m_result[i], m_result[j]);

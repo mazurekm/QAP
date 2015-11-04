@@ -28,6 +28,7 @@ protected:
 
 	std::vector<int> m_result, m_prevResult;
 	long m_cost, m_prevCost;
+	double m_averageCost;
 };
 
 #endif
