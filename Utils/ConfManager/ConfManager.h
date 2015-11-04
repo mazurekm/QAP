@@ -31,17 +31,31 @@ public:
 class CConfManager
 {
 public:
-	CConfManager(const std::string &path);
 	Json::Value getRoot() const;
 
+	static CConfManager& getInstance()
+	{
+  		static CConfManager instance;
+  		return instance;
+	}
+
+	void loadConfiguration(const std::string &path);
+
 	std::unordered_set<std::string> getStrategies();
+	std::unordered_set<std::string> getModes();
 	std::unordered_map<std::string, std::string> getInputData();
 	double getTimeLimit() const;
 	long getIterationLimit() const;
 	Json::Value getAlgParameters(const std::string &algName);
 
 private:
-	std::string m_path;	
+	CConfManager() {} 
+	CConfManager(const CConfManager &) = delete;
+	CConfManager(CConfManager &&) = delete;
+	CConfManager & operator=(const CConfManager &) = delete;
+	CConfManager & operator==(CConfManager &&) = delete;
+
+	
 	Json::Value m_root;
 	Json::Reader m_reader;
 };

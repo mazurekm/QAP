@@ -2,6 +2,7 @@
 #define LOCAL_SEARCH
 
 #include <Algorithms/Strategy/Strategy.h>
+#include <vector>
 
 class ILocalSearch : public IStrategy
 {
@@ -10,6 +11,8 @@ public:
 	virtual void perform();
     double getMeanSteps() const;
     double getMeanReviewedSolutions() const;
+    std::vector<long> m_beginSolutions;
+    std::vector<long> m_endSolutions;
 protected:
     virtual void performWithin() = 0;
 	std::vector<int> initPermutation(unsigned N);

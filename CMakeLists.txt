@@ -19,7 +19,15 @@ add_subdirectory(External)
 add_subdirectory(Algorithms)
 add_subdirectory(Utils)
 
-add_executable(${PROJECT_NAME} main.cpp AlgorithmFactory.cpp)
+add_executable(${PROJECT_NAME} 
+				main.cpp 
+				AlgorithmFactory.cpp 
+				Mode.cpp 
+				ModeFactory.cpp 
+				MeasureIterationCostMode.cpp
+				MeasureTimeMode.cpp
+			)
+
 target_link_libraries(${PROJECT_NAME}
 					  ${Boost_SYSTEM_LIBRARY}
 					  Algorithms

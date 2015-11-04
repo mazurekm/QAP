@@ -1,38 +1,29 @@
 {
 	"Data": [
-		["Resources/tai15a.dat","Resources/tai15a.sln"],
-		["Resources/tai20a.dat","Resources/tai20a.sln"],
-		["Resources/tai25a.dat","Resources/tai25a.sln"],
-		["Resources/tai30a.dat","Resources/tai30a.sln"],
-		["Resources/tai35a.dat","Resources/tai35a.sln"],
-		["Resources/tai40a.dat","Resources/tai40a.sln"],
-		["Resources/tai50a.dat","Resources/tai50a.sln"],
-		["Resources/tai60a.dat","Resources/tai60a.sln"],
-		["Resources/tai80a.dat","Resources/tai80a.sln"],
-		["Resources/tai100a.dat","Resources/tai100a.sln"]
+		["Resources/tai15a.dat","Resources/tai15a.sln"]
 	],
 	
-	"TimeLimit" : 180.0,
+	"TimeLimit" : 10.0,
+	"IterationLimit": 400,
 
 	"Strategy": 
 	{
-		"Random":
-		{
-
-		},
-		
 		"Greedy":
 		{
 
-		}, 
-
-		"Steepest":
+		}
+	},
+	
+	"Mode":
+	{
+		"MeasureTimeMode":
 		{
 
 		},
 
-		"3_Opt":
+		"MeasureIterationCostMode":
 		{
+			
 		}
-	}
+	}	
 }

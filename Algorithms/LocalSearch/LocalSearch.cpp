@@ -28,8 +28,11 @@ std::vector<int> ILocalSearch::initPermutation(unsigned N)
 void ILocalSearch::perform() {
 	savePreviousResult();
 	m_result = initPermutation(m_distance.size());
+	computeCost();
+	m_beginSolutions.push_back(m_cost);
 	performWithin();
 	restorePreviousResultIfItWasBetter();
+	m_endSolutions.push_back(m_cost);
 	updateMeasureParams();
 }
 

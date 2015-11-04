@@ -10,7 +10,6 @@ CSteepest::CSteepest(const Matrix &flow, const Matrix &distance) :
 
 void CSteepest::performWithin()
 {
-	computeCost();
 	auto swapedIdxs = std::make_pair(0,0);
 	long oldCost = m_cost;
 	long currentCost = m_cost;

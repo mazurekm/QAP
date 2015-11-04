@@ -1,80 +1,11 @@
 #include <iostream>
 #include <string>
 #include <memory>
-#include <map>
-#include <algorithm>
 
-#include <AlgorithmFactory.h>
+#include "ModeFactory.h"
 #include <Utils/CommandLineProcessor/CommandLineProcessor.h>
-#include <Utils/SmartStopwatch/SmartStopwatch.h>
-#include <Utils/ConfManager/ConfManager.h>
-#include <Utils/InstanceLoader/InstanceLoader.h>
-#include <Utils/CsvHelper/CsvHelper.h>
-#include <Algorithms/LocalSearch/LocalSearch.h>
 
-void processAllAlgorithms(CAlgorithmFactory & algorithmFactory, std::unique_ptr<CConfManager> const & confManager) {
 	
-	std::unique_ptr<IStopwatch> stopWatchPtr(new SmartStopwatch());
-	std::map<std::string, Instance> instanceMap;
-	CCsvHelper csv;
-
-	for(auto & instanceFilename : confManager->getInputData())
-	{
-		std::clog << "Reading ";
-		std::clog << instanceFilename.first << " " << instanceFilename.second << std::endl;
-		instanceMap[instanceFilename.first] = InstanceLoader::loadInstanceFromFile(
-									instanceFilename.first, instanceFilename.second
-								);
-	}
-
-	for(auto & strategy : confManager->getStrategies())
-	{
-		csv.add("Size", "Time", "BestCost", "MeanCost","CostDeviation", "CostOptDist", 
-				"MeanCostOptDist", "MeanSteps", "MeanNumSolutions");
-		std::clog << "--------------- " << strategy << " ---------------" << std::endl;
-		for(auto & instance : instanceMap) 
-		{
-			std::shared_ptr<IStrategy> currentAlgorithm (
-		    	algorithmFactory.create(strategy, 
-		    							instance.second.flows, 
-		    							instance.second.distances
-		    	)
-			);
-
-			stopWatchPtr->measureExecutionTime(currentAlgorithm, confManager->getTimeLimit());
-			auto cost = currentAlgorithm->getCost();
-			auto time = stopWatchPtr->getMeanTimePerIteration();
-			auto meanCost = currentAlgorithm->getMeanCost();
-			auto costDeviation = currentAlgorithm->getStdDevCost();
-
-			double meanSteps = -1;
-			double meanSol = -1;
-			auto ptr = std::dynamic_pointer_cast<ILocalSearch>(currentAlgorithm);
-
-			if(ptr != nullptr)
-			{
-				meanSteps = ptr->getMeanSteps();
-				meanSol = ptr->getMeanReviewedSolutions();
-			}
-
-			std::clog << "Instance " <<instance.first <<": " <<time << " " << cost << std::endl;
-			std::ostream_iterator<int> beginIter(std::clog, " ");
-			auto result = currentAlgorithm->getResult();
-			std::clog << "Found solution: "; 
-			std::copy(result.begin(), result.end(), beginIter);
-			std::clog << std::endl;
-
-			csv.add(instance.second.dimensionSize,
-				    time, cost, meanCost, costDeviation, 
-				    cost - instance.second.optimalSolution,
-				    meanCost - instance.second.optimalSolution,
-				    meanSteps, meanSol
-				    );
-		}
-		csv.toFile(strategy+".csv");
-		csv.clear();
-	}
-}
 
 int main(int argc, char **argv)
 {
@@ -82,7 +13,6 @@ int main(int argc, char **argv)
 	std::unique_ptr<po::options_description> description(
 		new po::options_description("Allowed option")
 	);
-
 	std::string configPath;
 	description->add_options()
 		("help", "produce help message")
@@ -106,26 +36,30 @@ int main(int argc, char **argv)
 		return -1;
 	}
 
-	std::unique_ptr<CConfManager> confManager;
-
 	try
 	{
-		confManager.reset(new CConfManager(configPath));
+		CConfManager::getInstance().loadConfiguration(configPath);
 	}
 	catch(const JsonNotFoundException &ex)
 	{
+		std::clog << ex.what() << std::endl;
 		return -1;
 	}
 	catch(const JsonParseException &ex)
 	{
+		std::clog << ex.what() << std::endl;
 		return -1;	
 	}
-
-	CAlgorithmFactory factory;
 	
+	CModeFactory factory;
+
 	try
 	{
-		processAllAlgorithms(factory, confManager);
+		for(auto & mode : CConfManager::getInstance().getModes())
+		{
+			std::unique_ptr<IMode> ptr ( factory.create(mode) );
+			(*ptr)();
+		}
 	}
 	catch(const DataFileNotFoundException & ex)
 	{

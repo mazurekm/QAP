@@ -2,7 +2,7 @@
 #include <boost/filesystem.hpp>
 #include <fstream>
 
-CConfManager::CConfManager(const std::string &path) : m_path(path)
+void CConfManager::loadConfiguration(const std::string &path)
 {
 	if (false == boost::filesystem::exists( path ) )
 	{
@@ -21,9 +21,11 @@ CConfManager::CConfManager(const std::string &path) : m_path(path)
 
 	if(false == m_root.isMember("Strategy") || 
 	   false == m_root.isMember("Data") ||
-	   false == m_root.isMember("TimeLimit") )
+	   false == m_root.isMember("TimeLimit") ||
+	   false == m_root.isMember("Mode") || 
+	   false == m_root.isMember("IterationLimit"))
 	{
-		throw JsonParseException("Strategy, Data and TimeLimit fields are required");
+		throw JsonParseException("Strategy, Data, Mode and TimeLimit fields are required");
 	}
 
 }
@@ -35,6 +37,11 @@ Json::Value CConfManager::getRoot() const
 
 std::unordered_set<std::string> CConfManager::getStrategies()
 {
+	if(true == m_root.getMemberNames().empty())
+	{
+		return std::unordered_set<std::string>();
+	}
+
 	auto data = m_root["Strategy"].getMemberNames();
 	std::unordered_set<std::string> result(data.begin(), data.end());
 	return result;
@@ -42,6 +49,11 @@ std::unordered_set<std::string> CConfManager::getStrategies()
 
 std::unordered_map<std::string, std::string> CConfManager::getInputData()
 {
+	if(true == m_root.getMemberNames().empty())
+	{
+		return std::unordered_map<std::string, std::string>();
+	}
+
 	auto data = m_root["Data"];
 	std::unordered_map<std::string, std::string> result;
 	for(auto & obj : data)
@@ -56,6 +68,11 @@ std::unordered_map<std::string, std::string> CConfManager::getInputData()
 
 Json::Value CConfManager::getAlgParameters(const std::string &algName)
 {
+	if(true == m_root.getMemberNames().empty())
+	{
+		return m_root;
+	}
+
 	if(false == m_root["Strategy"].isMember(algName))
 	{
 		return Json::Value();
@@ -65,9 +82,31 @@ Json::Value CConfManager::getAlgParameters(const std::string &algName)
 
 double CConfManager::getTimeLimit() const
 {
+	if(true == m_root.getMemberNames().empty())
+	{
+		return 0;
+	}
+
 	return m_root["TimeLimit"].asDouble();
 }
 
 long CConfManager::getIterationLimit() const {
+
+	if(true == m_root.getMemberNames().empty())
+	{
+		return 0;
+	}
 	return m_root["IterationLimit"].asInt();
+}
+
+std::unordered_set<std::string> CConfManager::getModes()
+{
+	if(true == m_root.getMemberNames().empty())
+	{
+		return std::unordered_set<std::string>();
+	}
+	
+	auto data = m_root["Mode"].getMemberNames();
+	std::unordered_set<std::string> result(data.begin(), data.end());
+	return result;
 }

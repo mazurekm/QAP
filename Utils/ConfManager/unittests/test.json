@@ -6,6 +6,7 @@
 	],
 	
 	"TimeLimit" : 10.0,
+	"IterationLimit": 300,
 
 	"Strategy": 
 	{
@@ -23,5 +24,10 @@
 		{
 
 		}
+	},
+
+	"Mode":
+	{
+
 	}
 }

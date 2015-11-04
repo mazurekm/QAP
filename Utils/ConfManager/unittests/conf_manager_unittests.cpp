@@ -9,13 +9,13 @@
 
 BOOST_AUTO_TEST_CASE(conf_test)
 {
-	CConfManager mgr("test.json");
-	auto files = mgr.getInputData();
-	auto sts = mgr.getStrategies();
+	CConfManager::getInstance().loadConfiguration("test.json");
+	auto files = CConfManager::getInstance().getInputData();
+	auto sts = CConfManager::getInstance().getStrategies();
 
 	BOOST_CHECK_EQUAL(files.size(), 3);
 	BOOST_CHECK_EQUAL(sts.size(), 3);
-	BOOST_CHECK_EQUAL(mgr.getTimeLimit(), 10.0);
+	BOOST_CHECK_EQUAL(CConfManager::getInstance().getTimeLimit(), 10.0);
 
 	BOOST_CHECK_EQUAL("ofile1", files["file1"]);
 	BOOST_CHECK_EQUAL("ofile2", files["file2"]);

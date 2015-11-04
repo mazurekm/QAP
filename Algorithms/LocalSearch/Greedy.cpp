@@ -10,7 +10,6 @@ CGreedy::CGreedy(const Matrix &flow, const Matrix &distance) :
 
 void CGreedy::performWithin()
 {
-	computeCost();
 	bool foundBetter;
 	auto swapedIdxs = std::make_pair(0,0);
 	do
