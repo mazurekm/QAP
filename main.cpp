@@ -10,6 +10,7 @@
 #include <Utils/ConfManager/ConfManager.h>
 #include <Utils/InstanceLoader/InstanceLoader.h>
 #include <Utils/CsvHelper/CsvHelper.h>
+#include <Algorithms/LocalSearch/LocalSearch.h>
 
 void processAllAlgorithms(CAlgorithmFactory & algorithmFactory, std::unique_ptr<CConfManager> const & confManager) {
 	
@@ -28,11 +29,12 @@ void processAllAlgorithms(CAlgorithmFactory & algorithmFactory, std::unique_ptr<
 
 	for(auto & strategy : confManager->getStrategies())
 	{
-		csv.add("size", "time", "cost", "optimum");
+		csv.add("Size", "Time", "BestCost", "MeanCost","CostDeviation", "CostOptDist", 
+				"MeanCostOptDist", "MeanSteps", "MeanNumSolutions");
 		std::clog << "--------------- " << strategy << " ---------------" << std::endl;
 		for(auto & instance : instanceMap) 
 		{
-			std::unique_ptr<IStrategy> currentAlgorithm (
+			std::shared_ptr<IStrategy> currentAlgorithm (
 		    	algorithmFactory.create(strategy, 
 		    							instance.second.flows, 
 		    							instance.second.distances
@@ -41,7 +43,19 @@ void processAllAlgorithms(CAlgorithmFactory & algorithmFactory, std::unique_ptr<
 
 			stopWatchPtr->measureExecutionTime(currentAlgorithm, confManager->getTimeLimit());
 			auto cost = currentAlgorithm->getCost();
-			double time = stopWatchPtr->getMeanTimePerIteration();
+			auto time = stopWatchPtr->getMeanTimePerIteration();
+			auto meanCost = currentAlgorithm->getMeanCost();
+			auto costDeviation = currentAlgorithm->getStdDevCost();
+
+			double meanSteps = -1;
+			double meanSol = -1;
+			auto ptr = std::dynamic_pointer_cast<ILocalSearch>(currentAlgorithm);
+
+			if(ptr != nullptr)
+			{
+				meanSteps = ptr->getMeanSteps();
+				meanSol = ptr->getMeanReviewedSolutions();
+			}
 
 			std::clog << "Instance " <<instance.first <<": " <<time << " " << cost << std::endl;
 			std::ostream_iterator<int> beginIter(std::clog, " ");
@@ -51,8 +65,11 @@ void processAllAlgorithms(CAlgorithmFactory & algorithmFactory, std::unique_ptr<
 			std::clog << std::endl;
 
 			csv.add(instance.second.dimensionSize,
-				    time, cost, 
-				    cost - instance.second.optimalSolution);
+				    time, cost, meanCost, costDeviation, 
+				    cost - instance.second.optimalSolution,
+				    meanCost - instance.second.optimalSolution,
+				    meanSteps, meanSol
+				    );
 		}
 		csv.toFile(strategy+".csv");
 		csv.clear();

@@ -26,11 +26,11 @@ std::vector<int> ILocalSearch::initPermutation(unsigned N)
 }
 
 void ILocalSearch::perform() {
-	++m_performNumber;
 	savePreviousResult();
 	m_result = initPermutation(m_distance.size());
 	performWithin();
 	restorePreviousResultIfItWasBetter();
+	updateMeasureParams();
 }
 
 double ILocalSearch::getMeanSteps() const {

@@ -27,12 +27,12 @@ long IStrategy::getCost() const
 }
 
 double IStrategy::getMeanCost() const {
-	return m_costSum / double(m_performNumber);
+	return m_costSum / static_cast<double>(m_performNumber);
 }
 
 double IStrategy::getStdDevCost() const {
 	double mean = getMeanCost();
-	return std::sqrt((m_squareCostSum / double(m_performNumber)) - (mean * mean));
+	return std::sqrt((m_squareCostSum / static_cast<double>(m_performNumber)) - (mean * mean));
 }
 
 void IStrategy::computeCost() {

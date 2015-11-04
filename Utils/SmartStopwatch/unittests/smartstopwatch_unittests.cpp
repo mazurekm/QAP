@@ -19,8 +19,8 @@ void MockStrategy::perform() {
 }
 
 BOOST_AUTO_TEST_CASE(test_measure) {
-    std::unique_ptr<IStrategy> mockStrategyPtr(new MockStrategy(Matrix(), Matrix())); 
-    std::unique_ptr<IStopwatch> stopwatchPtr(new SmartStopwatch());
+    std::shared_ptr<IStrategy> mockStrategyPtr(new MockStrategy(Matrix(), Matrix())); 
+    std::shared_ptr<IStopwatch> stopwatchPtr(new SmartStopwatch());
     double expectedTimeElapsed = ceil(10 * IterationTime);
 
     stopwatchPtr->measureExecutionTime(mockStrategyPtr, expectedTimeElapsed);
@@ -30,8 +30,8 @@ BOOST_AUTO_TEST_CASE(test_measure) {
 }
 
 BOOST_AUTO_TEST_CASE(test_measure_iterations) {
-    std::unique_ptr<IStrategy> mockStrategyPtr(new MockStrategy(Matrix(), Matrix())); 
-    std::unique_ptr<IStopwatch> stopwatchPtr(new SmartStopwatch());
+    std::shared_ptr<IStrategy> mockStrategyPtr(new MockStrategy(Matrix(), Matrix())); 
+    std::shared_ptr<IStopwatch> stopwatchPtr(new SmartStopwatch());
     long expectedIterations = 8;
 
     stopwatchPtr->measureExecutionTime(mockStrategyPtr, expectedIterations);
