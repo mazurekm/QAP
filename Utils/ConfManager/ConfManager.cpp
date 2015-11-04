@@ -32,6 +32,11 @@ void CConfManager::loadConfiguration(const std::string &path)
 
 Json::Value CConfManager::getRoot() const
 {
+	if(true == m_root.getMemberNames().empty())
+	{
+		throw ConfigurationNotLoaded();
+	}
+	
 	return m_root;
 }
 
@@ -39,7 +44,7 @@ std::unordered_set<std::string> CConfManager::getStrategies()
 {
 	if(true == m_root.getMemberNames().empty())
 	{
-		return std::unordered_set<std::string>();
+		throw ConfigurationNotLoaded();
 	}
 
 	auto data = m_root["Strategy"].getMemberNames();
@@ -51,7 +56,7 @@ std::unordered_map<std::string, std::string> CConfManager::getInputData()
 {
 	if(true == m_root.getMemberNames().empty())
 	{
-		return std::unordered_map<std::string, std::string>();
+		throw ConfigurationNotLoaded();
 	}
 
 	auto data = m_root["Data"];
@@ -70,7 +75,7 @@ Json::Value CConfManager::getAlgParameters(const std::string &algName)
 {
 	if(true == m_root.getMemberNames().empty())
 	{
-		return m_root;
+		throw ConfigurationNotLoaded();
 	}
 
 	if(false == m_root["Strategy"].isMember(algName))
@@ -84,7 +89,7 @@ double CConfManager::getTimeLimit() const
 {
 	if(true == m_root.getMemberNames().empty())
 	{
-		return 0;
+		throw ConfigurationNotLoaded();
 	}
 
 	return m_root["TimeLimit"].asDouble();
@@ -94,7 +99,7 @@ long CConfManager::getIterationLimit() const {
 
 	if(true == m_root.getMemberNames().empty())
 	{
-		return 0;
+		throw ConfigurationNotLoaded();
 	}
 	return m_root["IterationLimit"].asInt();
 }
@@ -103,9 +108,9 @@ std::unordered_set<std::string> CConfManager::getModes()
 {
 	if(true == m_root.getMemberNames().empty())
 	{
-		return std::unordered_set<std::string>();
+		throw ConfigurationNotLoaded();
 	}
-	
+
 	auto data = m_root["Mode"].getMemberNames();
 	std::unordered_set<std::string> result(data.begin(), data.end());
 	return result;

@@ -28,6 +28,15 @@ public:
 };
 
 
+class ConfigurationNotLoaded : public std::runtime_error
+{
+public:
+	ConfigurationNotLoaded() : std::runtime_error("Configuration not loaded")	
+	{
+
+	}
+};
+
 class CConfManager
 {
 public:

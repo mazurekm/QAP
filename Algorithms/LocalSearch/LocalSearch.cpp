@@ -31,9 +31,9 @@ void ILocalSearch::perform() {
 	computeCost();
 	m_beginSolutions.push_back(m_cost);
 	performWithin();
-	restorePreviousResultIfItWasBetter();
 	m_endSolutions.push_back(m_cost);
 	updateMeasureParams();
+	restorePreviousResultIfItWasBetter();
 }
 
 double ILocalSearch::getMeanSteps() const {

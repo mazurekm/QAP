@@ -1,6 +1,7 @@
 #include "ModeFactory.h"
 #include "MeasureTimeMode.h"
 #include "MeasureIterationCostMode.h"
+#include "StartEndCostMode.h"
 
 IMode *CModeFactory::create(const std::string &name)
 {
@@ -11,6 +12,10 @@ IMode *CModeFactory::create(const std::string &name)
 	else if("MeasureIterationCostMode" == name)
 	{
 		return new CMeasureIterationCostMode();
+	}
+	else if("StartEndCostMode")
+	{
+		return new CStartEndCostMode();
 	}
 
 	throw std::runtime_error("Incorrect mode");

@@ -1,6 +1,12 @@
 {
 	"Data": [
-		["Resources/tai15a.dat","Resources/tai15a.sln"]
+		["Resources/esc16h.dat","Resources/esc16h.sln"],
+		["Resources/lipa70a.dat","Resources/lipa70a.sln"],
+		["Resources/nug30.dat","Resources/nug30.sln"],
+		["Resources/rou15.dat","Resources/rou15.sln"],
+		["Resources/scr20.dat","Resources/scr20.sln"],
+		["Resources/ste36a.dat","Resources/ste36a.sln"],
+		["Resources/wil50.dat","Resources/wil50.sln"]
 	],
 	
 	"TimeLimit" : 10.0,
@@ -11,19 +17,19 @@
 		"Greedy":
 		{
 
+		},
+
+		"Steepest":
+		{
+
 		}
 	},
 	
 	"Mode":
 	{
-		"MeasureTimeMode":
+		"StartEndCostMode0":
 		{
 
-		},
-
-		"MeasureIterationCostMode":
-		{
-			
 		}
 	}	
 }

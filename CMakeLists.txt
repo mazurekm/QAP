@@ -26,6 +26,7 @@ add_executable(${PROJECT_NAME}
 				ModeFactory.cpp 
 				MeasureIterationCostMode.cpp
 				MeasureTimeMode.cpp
+				StartEndCostMode.cpp
 			)
 
 target_link_libraries(${PROJECT_NAME}
