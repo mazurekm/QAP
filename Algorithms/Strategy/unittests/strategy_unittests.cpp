@@ -10,6 +10,7 @@ class MockStrategy : public IStrategy {
 public:
     MockStrategy(const Matrix & flow, const Matrix & distance);
     void perform();
+    void performNormalComputeCost();
     void setPair(int, int);
     static int testId;
 };
@@ -31,6 +32,11 @@ MockStrategy::MockStrategy(const Matrix & flow, const Matrix & distance) : IStra
 
 void MockStrategy::perform() {
     computeCost(swapedIndxs);
+    std::swap(m_result[swapedIndxs.first], m_result[swapedIndxs.second]);
+}
+
+void MockStrategy::performNormalComputeCost() {
+    computeCost();
 }
 
 void MockStrategy::setPair(int a, int b) {
@@ -98,6 +104,21 @@ BOOST_AUTO_TEST_CASE(test_computeCost) {
     mockStrategyPtr->perform();
 
     BOOST_CHECK_EQUAL(expectedCost, mockStrategyPtr->getCost());
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, 11);
+
+    for (int i = 0; i < (2 << 15); ++i) {
+        std::pair<int, int>swapIndxs = {dis(rd), dis(rd)};
+        mockStrategyPtr->setPair(swapIndxs.first, swapIndxs.second);
+        mockStrategyPtr->perform();
+        expectedCost = mockStrategyPtr->getCost();
+
+        mockStrategyPtr->performNormalComputeCost();
+
+        BOOST_CHECK_EQUAL(expectedCost, mockStrategyPtr->getCost());
+    }
 }
 
 BOOST_AUTO_TEST_CASE(test_computeCost2) {
