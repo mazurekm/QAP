@@ -4,7 +4,7 @@
 #include <random>
 
 ILocalSearch::ILocalSearch(const Matrix &flow, const Matrix &distance) : 
-	IStrategy(flow, distance), m_performNumber(0), m_steps(0), m_reviewedSolutions(0)
+	IStrategy(flow, distance), m_steps(0), m_reviewedSolutions(0)
 {
 }
 

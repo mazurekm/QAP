@@ -3,11 +3,15 @@
 #include <iostream>
 #include <utility>
 #include <climits>
+#include <cmath>
 
 IStrategy::IStrategy(const Matrix &flow, const Matrix &distance):
 	m_flow(flow),
 	m_distance(distance),
-	m_cost(LONG_MAX)
+	m_cost(LONG_MAX),
+	m_performNumber(0),
+	m_costSum(0),
+	m_squareCostSum(0)	
 {
 
 }
@@ -20,6 +24,15 @@ std::vector<int> IStrategy::getResult() const
 long IStrategy::getCost() const
 {
 	return m_cost;
+}
+
+double IStrategy::getMeanCost() const {
+	return m_costSum / double(m_performNumber);
+}
+
+double IStrategy::getStdDevCost() const {
+	double mean = getMeanCost();
+	return std::sqrt((m_squareCostSum / double(m_performNumber)) - (mean * mean));
 }
 
 void IStrategy::computeCost() {
@@ -80,4 +93,10 @@ void IStrategy::restorePreviousResultIfItWasBetter() {
 		m_result = m_prevResult;
 		m_cost = m_prevCost;
 	}
+}
+
+void IStrategy::updateMeasureParams() {
+	++m_performNumber;
+	m_costSum += m_cost;
+	m_squareCostSum += m_cost * m_cost;
 }

@@ -20,6 +20,7 @@ void CRandom::perform()
 	savePreviousResult();
 	permute();
 	computeCost();
+	updateMeasureParams();
 	restorePreviousResultIfItWasBetter();
 }
 

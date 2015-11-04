@@ -5,7 +5,6 @@
 
 class ILocalSearch : public IStrategy
 {
-    long m_performNumber;
 public:
 	ILocalSearch(const Matrix &flow, const Matrix &distance);
 	virtual void perform();

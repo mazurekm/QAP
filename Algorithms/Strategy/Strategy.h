@@ -14,6 +14,8 @@ public:
 
 	std::vector<int> getResult() const;
 	long getCost() const;
+	double getMeanCost() const;
+	double getStdDevCost() const;
 
 protected:
 	virtual void computeCost();
@@ -22,13 +24,15 @@ protected:
 	void addToCostAllArcsBoundWithPair(const std::pair<int, int> &);
 	void restorePreviousResultIfItWasBetter();
 	void savePreviousResult();
+	void updateMeasureParams();
 
 	Matrix m_flow;
 	Matrix m_distance;
 
 	std::vector<int> m_result, m_prevResult;
-	long m_cost, m_prevCost;
-	double m_averageCost;
+	long m_cost, m_prevCost, m_performNumber;
+	long m_costSum;
+	long m_squareCostSum;
 };
 
 #endif
