@@ -1,16 +1,10 @@
 {
 	"Data": [
-		["Resources/esc16h.dat","Resources/esc16h.sln"],
-		["Resources/lipa70a.dat","Resources/lipa70a.sln"],
-		["Resources/nug30.dat","Resources/nug30.sln"],
-		["Resources/rou15.dat","Resources/rou15.sln"],
-		["Resources/scr20.dat","Resources/scr20.sln"],
-		["Resources/ste36a.dat","Resources/ste36a.sln"],
-		["Resources/wil50.dat","Resources/wil50.sln"]
+		["Resources/esc16h.dat","Resources/esc16h.sln"]
 	],
 	
 	"TimeLimit" : 10.0,
-	"IterationLimit": 400,
+	"IterationLimit": 200,
 
 	"Strategy": 
 	{
@@ -27,7 +21,7 @@
 	
 	"Mode":
 	{
-		"StartEndCostMode0":
+		"StartEndCostMode":
 		{
 
 		}

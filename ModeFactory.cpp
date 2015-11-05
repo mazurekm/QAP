@@ -1,17 +1,17 @@
 #include "ModeFactory.h"
-#include "MeasureTimeMode.h"
-#include "MeasureIterationCostMode.h"
+#include "TimeMode.h"
+#include "IterationCostMode.h"
 #include "StartEndCostMode.h"
 
 IMode *CModeFactory::create(const std::string &name)
 {
-	if("MeasureTimeMode" == name)
+	if("TimeMode" == name)
 	{
-		return new CMeasureTimeMode();
+		return new CTimeMode();
 	}
-	else if("MeasureIterationCostMode" == name)
+	else if("IterationCostMode" == name)
 	{
-		return new CMeasureIterationCostMode();
+		return new CIterationCostMode();
 	}
 	else if("StartEndCostMode")
 	{

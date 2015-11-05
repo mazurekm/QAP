@@ -2,8 +2,8 @@
 #include <algorithm>
 #include <utility>
 
-CGreedy::CGreedy(const Matrix &flow, const Matrix &distance) :
-	ILocalSearch(flow, distance)
+CGreedy::CGreedy(const Matrix &flow, const Matrix &distance, bool gatherCost) :
+	ILocalSearch(flow, distance, gatherCost)
 {
 
 }

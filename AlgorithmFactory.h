@@ -10,7 +10,8 @@ class CAlgorithmFactory
 public:
 	IStrategy *create(const std::string &name, 
 					  const Matrix &flow, 
-					  const Matrix &distance);
+					  const Matrix &distance,
+					  bool gatherCost = false);
 };
 
 #endif

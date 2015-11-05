@@ -7,16 +7,22 @@
 class ILocalSearch : public IStrategy
 {
 public:
-	ILocalSearch(const Matrix &flow, const Matrix &distance);
+	ILocalSearch(const Matrix &flow, const Matrix &distance, bool gatherCost = false);
 	virtual void perform();
     double getMeanSteps() const;
     double getMeanReviewedSolutions() const;
-    std::vector<long> m_beginSolutions;
-    std::vector<long> m_endSolutions;
+    
+    std::vector<long> getFirstSolutionList() const;
+    std::vector<long> getFinalSolutionList() const;
+
 protected:
     virtual void performWithin() = 0;
 	std::vector<int> initPermutation(unsigned N);
     long m_steps, m_reviewedSolutions;
+    bool m_gatherCost;
+
+    std::vector<long> m_beginSolutions;
+    std::vector<long> m_endSolutions;
 };
 
 #endif

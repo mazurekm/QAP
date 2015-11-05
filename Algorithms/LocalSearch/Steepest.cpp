@@ -3,8 +3,8 @@
 #include <utility>
 #include <iterator>
 
-CSteepest::CSteepest(const Matrix &flow, const Matrix &distance) :
-	ILocalSearch(flow, distance)
+CSteepest::CSteepest(const Matrix &flow, const Matrix &distance, bool gatherCost) :
+	ILocalSearch(flow, distance, gatherCost)
 {
 }
 

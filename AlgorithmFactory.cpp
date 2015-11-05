@@ -8,7 +8,8 @@
 
 IStrategy *CAlgorithmFactory::create(const std::string &name, 
 				     const Matrix &flow, 
-				     const Matrix &distance)
+				     const Matrix &distance,
+				     bool gatherCost)
 {
 	if("Random" == name)
 	{
@@ -16,15 +17,15 @@ IStrategy *CAlgorithmFactory::create(const std::string &name,
 	}
 	else if("Greedy" == name)
 	{
-		return new CGreedy(flow, distance);
+		return new CGreedy(flow, distance, gatherCost);
 	}
 	else if("Steepest" == name)
 	{
-		return new CSteepest(flow, distance);	
+		return new CSteepest(flow, distance, gatherCost);	
 	}
 	else if("3_Opt" == name)
 	{
-		return new C_3_Opt(flow, distance);
+		return new C_3_Opt(flow, distance, gatherCost);
 	}
 
 	throw std::runtime_error("Incorrect algorithm");

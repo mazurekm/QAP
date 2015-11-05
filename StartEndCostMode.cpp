@@ -18,19 +18,25 @@ void CStartEndCostMode::perform()
 			std::shared_ptr<IStrategy> currentAlgorithm (
 		    	m_algorithmFactory.create(strategy, 
 		    							instance.second.flows, 
-		    							instance.second.distances
+		    							instance.second.distances, 
+		    							true
 		    	)
 			);
 
-			m_stopWatch.measureExecutionTime(currentAlgorithm, static_cast<long>(200));
+			auto iterLimit = CConfManager::getInstance().getIterationLimit();
+
+			m_stopWatch.measureExecutionTime(currentAlgorithm, static_cast<long>(iterLimit));
 			auto ptr = std::dynamic_pointer_cast<ILocalSearch>(currentAlgorithm);
 
 			m_csv.add("Iteration", "BeginSolution", "EndSolution");
+			auto firstCostVec = ptr->getFirstSolutionList();
+			auto finalCostVec = ptr->getFinalSolutionList();
+
 			if(ptr != nullptr)
 			{
-				for(int i=1; i<=200; ++i)
+				for(int i=1; i<=iterLimit; ++i)
 				{
-					m_csv.add(i, ptr->m_beginSolutions[i-1], ptr->m_endSolutions[i-1]);
+					m_csv.add(i, firstCostVec[i-1], finalCostVec[i-1]);
 				}
 			}
 

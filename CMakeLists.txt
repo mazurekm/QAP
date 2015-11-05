@@ -24,8 +24,8 @@ add_executable(${PROJECT_NAME}
 				AlgorithmFactory.cpp 
 				Mode.cpp 
 				ModeFactory.cpp 
-				MeasureIterationCostMode.cpp
-				MeasureTimeMode.cpp
+				IterationCostMode.cpp
+				TimeMode.cpp
 				StartEndCostMode.cpp
 			)
 

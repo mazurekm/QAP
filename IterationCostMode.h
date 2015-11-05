@@ -3,10 +3,10 @@
 
 #include "Mode.h"
 
-class CMeasureIterationCostMode : public IMode
+class CIterationCostMode : public IMode
 {
 public:
-	CMeasureIterationCostMode();
+	CIterationCostMode();
 protected:
 	void perform();
 };

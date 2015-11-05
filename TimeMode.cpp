@@ -1,4 +1,4 @@
-#include "MeasureTimeMode.h"
+#include "TimeMode.h"
 #include <Algorithms/LocalSearch/LocalSearch.h>
 
 #include <boost/algorithm/string.hpp>
@@ -6,12 +6,12 @@
 #include <iostream>
 #include <iterator>
 
-CMeasureTimeMode::CMeasureTimeMode()
+CTimeMode::CTimeMode()
 {
 
 }
 
-void CMeasureTimeMode::perform()
+void CTimeMode::perform()
 {
 	for(auto & strategy : CConfManager::getInstance().getStrategies())
 	{

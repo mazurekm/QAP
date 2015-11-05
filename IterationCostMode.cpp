@@ -1,4 +1,4 @@
-#include "MeasureIterationCostMode.h"
+#include "IterationCostMode.h"
 
 #include <boost/algorithm/string.hpp>
 
@@ -6,12 +6,12 @@
 
 
 
-CMeasureIterationCostMode::CMeasureIterationCostMode()
+CIterationCostMode::CIterationCostMode()
 {
 
 }
 
-void CMeasureIterationCostMode::perform()
+void CIterationCostMode::perform()
 {
 	for(auto & strategy : CConfManager::getInstance().getStrategies())
 	{

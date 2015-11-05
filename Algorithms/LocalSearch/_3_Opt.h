@@ -17,7 +17,7 @@ class C_3_Opt : public ILocalSearch {
 protected:
     void performWithin();
 public:
-    C_3_Opt(const Matrix &flow, const Matrix &distance);
+    C_3_Opt(const Matrix &flow, const Matrix &distance, bool gatherCost);
 };
 
 #endif

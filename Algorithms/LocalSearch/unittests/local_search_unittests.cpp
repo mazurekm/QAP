@@ -18,7 +18,7 @@ public:
 };
 
 Mock_3_Opt::Mock_3_Opt(const Matrix &flow, const Matrix &distance) :
-    C_3_Opt(flow, distance)
+    C_3_Opt(flow, distance, false)
 {
 }
 

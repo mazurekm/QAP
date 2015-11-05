@@ -3,10 +3,10 @@
 
 #include "Mode.h"
 
-class CMeasureTimeMode : public IMode
+class CTimeMode : public IMode
 {
 public:
-	CMeasureTimeMode();
+	CTimeMode();
 protected:
 	void perform();
 };
