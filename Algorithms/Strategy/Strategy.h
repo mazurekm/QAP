@@ -32,7 +32,7 @@ protected:
 	std::vector<int> m_result, m_prevResult;
 	long m_cost, m_prevCost, m_performNumber;
 	long m_costSum;
-	long m_squareCostSum;
+	long double m_squareCostSum;
 };
 
 #endif
