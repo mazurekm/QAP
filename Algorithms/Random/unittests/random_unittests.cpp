@@ -28,8 +28,10 @@ BOOST_AUTO_TEST_CASE(test_random_with_instance)
 	std::unique_ptr<IStrategy> ptr( new CRandom (input.flows, input.distances ));
 	double cost = input.optimalSolution;
 	
-	for (int i = 0; i < 1000; ++i) {
+	for (int i = 0; i< 10; ++i) {
 		ptr->perform();
+		std::cout << ptr->getCost() << std::endl;
+		std::cout << ptr->getMeanCost() << " " << ptr->getStdDevCost() << std::endl;
 		BOOST_CHECK(ptr->getCost() >= cost);
 	}
 

@@ -7,14 +7,18 @@
 
 class IStopwatch {
 protected:
-    std::chrono::duration<double> timeElapsed;
+    std::chrono::duration<double> timeElapsedDuringPerform;
+    double timeElapsedTotal, timeElapsedSquareTotal;
     long iterations, stepSum, solutionsReviewedSum;
 public:
     IStopwatch();
     virtual void measureExecutionTime(std::shared_ptr<IStrategy> const &, double) = 0;
     virtual void measureExecutionTime(std::shared_ptr<IStrategy> const &, long) = 0;
-    std::chrono::duration<double> getTimeElapsed() const;
+    double getTimeElapsedTotal() const;
     double getMeanTimePerIteration() const;
+    double getMeanTimeStdDev() const;
+protected:
+    virtual void measure(std::shared_ptr<IStrategy> const &) = 0;
 };
 
 #endif

@@ -5,20 +5,27 @@ using namespace std::chrono;
 
 void SmartStopwatch::measureExecutionTime(std::shared_ptr<IStrategy> const & algPtr, double timeLimit) {
     iterations = 0;
-    const high_resolution_clock::time_point startTimePoint = high_resolution_clock::now();
+    timeElapsedTotal = 0;
+    timeElapsedSquareTotal = 0;
     do {
-       algPtr->perform();
-       timeElapsed = high_resolution_clock::now() - startTimePoint; 
-       ++iterations;
-    } while (timeElapsed.count() < timeLimit);
+        measure(algPtr);       
+    } while (timeElapsedTotal < timeLimit);
 }
 
 void SmartStopwatch::measureExecutionTime(std::shared_ptr<IStrategy> const & algPtr, long iterationLimit) {
     iterations = 0;
-    const high_resolution_clock::time_point startTimePoint = high_resolution_clock::now();
+    timeElapsedTotal = 0;
+    timeElapsedSquareTotal = 0;
     do {
-       algPtr->perform();
-       timeElapsed = high_resolution_clock::now() - startTimePoint; 
-       ++iterations;
+        measure(algPtr); 
     } while (iterations < iterationLimit);
+}
+
+void SmartStopwatch::measure(std::shared_ptr<IStrategy> const & algPtr) {
+    high_resolution_clock::time_point startTimePoint = high_resolution_clock::now();
+    algPtr->perform();
+    timeElapsedDuringPerform = high_resolution_clock::now() - startTimePoint; 
+    timeElapsedTotal += timeElapsedDuringPerform.count();
+    timeElapsedSquareTotal += timeElapsedDuringPerform.count() * timeElapsedDuringPerform.count();
+    ++iterations;
 }

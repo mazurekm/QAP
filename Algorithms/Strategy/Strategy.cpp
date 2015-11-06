@@ -32,7 +32,7 @@ double IStrategy::getMeanCost() const {
 
 double IStrategy::getStdDevCost() const {
 	double mean = getMeanCost();
-	return std::sqrt((m_squareCostSum / static_cast<double>(m_performNumber)) - (mean * mean));
+	return std::sqrt(m_squareCostSum/static_cast<double>(m_performNumber) - mean*mean);
 }
 
 void IStrategy::computeCost() {

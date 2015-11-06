@@ -2,6 +2,7 @@
 #include <Algorithms/LocalSearch/LocalSearch.h>
 
 #include <boost/algorithm/string.hpp>
+#include <iostream>
 
 CStartEndCostMode::CStartEndCostMode()
 {
