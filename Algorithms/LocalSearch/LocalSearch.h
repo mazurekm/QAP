@@ -17,7 +17,6 @@ public:
 
 protected:
     virtual void performWithin() = 0;
-	std::vector<int> initPermutation(unsigned N);
     long m_steps, m_reviewedSolutions;
     bool m_gatherCost;
 

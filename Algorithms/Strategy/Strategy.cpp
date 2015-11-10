@@ -4,6 +4,9 @@
 #include <utility>
 #include <climits>
 #include <cmath>
+#include <random>
+#include <algorithm>
+#include <iterator>
 
 IStrategy::IStrategy(const Matrix &flow, const Matrix &distance):
 	m_flow(flow),
@@ -99,4 +102,21 @@ void IStrategy::updateMeasureParams() {
 	++m_performNumber;
 	m_costSum += m_cost;
 	m_squareCostSum += m_cost * m_cost;
+}
+
+std::vector<int> IStrategy::initPermutation(unsigned N)
+{
+	std::vector<int> result;
+	int current = 0;
+	std::generate_n(
+			std::back_inserter(result), 
+			N, 
+			[&]()->int{ return current++; }
+	);
+
+	std::random_device rd;
+    std::mt19937 randomGen(rd());
+	std::shuffle(result.begin(), result.end(), randomGen);
+	
+	return result;
 }

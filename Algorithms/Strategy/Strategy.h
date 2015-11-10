@@ -18,6 +18,7 @@ public:
 	double getStdDevCost() const;
 
 protected:
+	std::vector<int> initPermutation(unsigned N);
 	virtual void computeCost();
 	virtual void computeCost(const std::pair<int, int> &);
 	void substractFromCostAllArcsBoundWithPair(const std::pair<int, int> &);
