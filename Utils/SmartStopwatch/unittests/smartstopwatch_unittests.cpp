@@ -7,6 +7,8 @@
 #include <Algorithms/Strategy/Strategy.h>
 #include <iostream>
 
+using std::chrono::high_resolution_clock;
+
 const double IterationTime = 0.15;
 
 class MockStrategy : public IStrategy  {
@@ -37,9 +39,9 @@ BOOST_AUTO_TEST_CASE(test_measure) {
 
     stopwatchPtr->measureExecutionTime(mockStrategyPtr, expectedTimeElapsed);
 
-    BOOST_CHECK(stopwatchPtr->getTimeElapsedTotal() >= expectedTimeElapsed);
-    BOOST_CHECK_CLOSE(IterationTime, stopwatchPtr->getMeanTimePerIteration(), 1);
-    BOOST_CHECK(stopwatchPtr->getMeanTimeStdDev() < 0.001);
+    auto timeStatsCalculator = stopwatchPtr->getTimeStatsCalculator();
+    BOOST_CHECK_CLOSE(IterationTime, timeStatsCalculator.getMean(), 1);
+    BOOST_CHECK(timeStatsCalculator.getStdDev() < 0.001);
 }
 
 BOOST_AUTO_TEST_CASE(test_measure_iterations) {
@@ -48,9 +50,11 @@ BOOST_AUTO_TEST_CASE(test_measure_iterations) {
     long expectedIterations = 8;
     MockStrategy::actionType = 0;
 
+    high_resolution_clock::time_point startTimePoint = high_resolution_clock::now();
     stopwatchPtr->measureExecutionTime(mockStrategyPtr, expectedIterations);
+    auto timeElapsed = high_resolution_clock::now() - startTimePoint; 
 
-    BOOST_CHECK_CLOSE(expectedIterations * IterationTime, stopwatchPtr->getTimeElapsedTotal(), 1);
+    BOOST_CHECK_CLOSE(expectedIterations * IterationTime, timeElapsed.count(), 1);
 }
 
 BOOST_AUTO_TEST_CASE(test_stddev) {
@@ -64,5 +68,6 @@ BOOST_AUTO_TEST_CASE(test_stddev) {
     expectedStdDev = std::sqrt(expectedStdDev / 7);
 
     stopwatchPtr->measureExecutionTime(mockStrategyPtr, timeLimit);
-    BOOST_CHECK_CLOSE(stopwatchPtr->getMeanTimeStdDev(), expectedStdDev, 1);
+    auto timeStatsCalculator = stopwatchPtr->getTimeStatsCalculator();
+    BOOST_CHECK_CLOSE(timeStatsCalculator.getStdDev(), expectedStdDev, 1);
 }

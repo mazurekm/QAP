@@ -1,9 +1,6 @@
 #include "IterationCostMode.h"
-
 #include <boost/algorithm/string.hpp>
-
 #include <iostream>
-
 
 
 CIterationCostMode::CIterationCostMode()
@@ -30,9 +27,8 @@ void CIterationCostMode::perform()
 			{
 				m_stopWatch.measureExecutionTime(currentAlgorithm, static_cast<long>(idx));
 				auto cost = currentAlgorithm->getCost();
-				auto meanCost = currentAlgorithm->getMeanCost();
-				auto costDeviation = currentAlgorithm->getStdDevCost();
-				m_csv.add(idx, cost, meanCost, costDeviation);
+				auto costStatsCalculator = currentAlgorithm->getCostStatsCalculator();
+				m_csv.add(idx, cost, costStatsCalculator.getMean(), costStatsCalculator.getStdDev());
 			}
 
 			std::vector<std::string> splitted; 

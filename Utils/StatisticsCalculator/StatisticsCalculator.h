@@ -7,8 +7,10 @@ class CStatisticsCalculator {
 public:
     CStatisticsCalculator();
     void update(double);
+    void reset();
     double getMean() const;
     double getStdDev() const;
+    double getQuantitySum() const;
 };
 
 #endif

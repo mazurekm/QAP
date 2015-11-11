@@ -15,7 +15,7 @@ void CRandom::perform()
 	savePreviousResult();
 	permute();
 	computeCost();
-	updateMeasureParams();
+	m_costStatsCalculator.update(m_cost);
 	restorePreviousResultIfItWasBetter();
 }
 
