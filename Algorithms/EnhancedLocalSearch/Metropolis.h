@@ -1,13 +1,13 @@
 #ifndef METROPOLIS
 #define METROPOLIS
 
-#include <Algorithms/Strategy/Strategy.h>
+#include <Algorithms/EnhancedLocalSearch/EnhancedLocalSearch.h>
 
-class CMetropolis : public IStrategy
+class CMetropolis : public IEnhancedLocalSearch
 {
 public:
 	CMetropolis(const Matrix &flow, const Matrix &distance);
-	void perfom();
+	void perform();
 	void setParameters(double temperature, double alfa);
 
 private:

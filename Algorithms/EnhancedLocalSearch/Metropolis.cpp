@@ -4,7 +4,7 @@
 #include <cmath>
 
 CMetropolis::CMetropolis(const Matrix &flow, const Matrix &distance) :
-	IStrategy(flow, distance)
+	IEnhancedLocalSearch(flow, distance)
 {
 
 }
@@ -18,7 +18,7 @@ void CMetropolis::setParameters(double temperature, double alfa)
 	}
 }
 
-void CMetropolis::perfom()
+void CMetropolis::perform()
 {
 	m_result = initPermutation(m_distance.size());
 	computeCost();
