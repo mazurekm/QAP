@@ -1,7 +1,7 @@
 #include "LocalSearch.h"
 
 ILocalSearch::ILocalSearch(const Matrix &flow, const Matrix &distance, bool gatherCost) : 
-	IStrategy(flow, distance), m_steps(0), m_reviewedSolutions(0), m_gatherCost(gatherCost)
+	IStrategy(flow, distance), m_gatherCost(gatherCost)
 {
 }
 
@@ -10,6 +10,8 @@ void ILocalSearch::perform() {
 	savePreviousResult();
 	m_result = initPermutation(m_distance.size());
 	computeCost();
+	m_reviewedSolutions = 0;
+	m_steps = 0;
 
 	if(true == m_gatherCost)
 	{
@@ -23,16 +25,16 @@ void ILocalSearch::perform() {
 		m_endSolutions.push_back(m_cost);
 	}
 
-	updateMeasureParams();
+	updateStats();
 	restorePreviousResultIfItWasBetter();
 }
 
-double ILocalSearch::getMeanSteps() const {
-	return m_steps / double(m_performNumber);
+CStatisticsCalculator ILocalSearch::getStepsStatsCalculator() const {
+	return m_stepsStatsCalculator;
 }
 
-double ILocalSearch::getMeanReviewedSolutions() const {
-	return m_reviewedSolutions / double(m_performNumber);
+CStatisticsCalculator ILocalSearch::getReviewedSolutionsStatsCalculator() const {
+	return m_reviewedSolutionsStatsCalculator;
 }
 
 std::vector<long> ILocalSearch::getFirstSolutionList() const
@@ -43,4 +45,10 @@ std::vector<long> ILocalSearch::getFirstSolutionList() const
 std::vector<long> ILocalSearch::getFinalSolutionList() const
 {
 	return m_endSolutions;
+}
+
+void ILocalSearch::updateStats() {
+	m_costStatsCalculator.update(m_cost);
+	m_reviewedSolutionsStatsCalculator.update(m_reviewedSolutions);
+	m_stepsStatsCalculator.update(m_steps);
 }

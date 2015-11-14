@@ -12,11 +12,13 @@ IStrategy::IStrategy(const Matrix &flow, const Matrix &distance):
 	m_flow(flow),
 	m_distance(distance),
 	m_cost(LONG_MAX),
-	m_performNumber(0),
-	m_costSum(0),
-	m_squareCostSum(0)	
+	m_performNumber(0)
 {
 
+}
+
+long IStrategy::getCost() const {
+	return m_cost;
 }
 
 std::vector<int> IStrategy::getResult() const
@@ -24,18 +26,8 @@ std::vector<int> IStrategy::getResult() const
 	return m_result;
 }
 
-long IStrategy::getCost() const
-{
-	return m_cost;
-}
-
-double IStrategy::getMeanCost() const {
-	return m_costSum / static_cast<double>(m_performNumber);
-}
-
-double IStrategy::getStdDevCost() const {
-	double mean = getMeanCost();
-	return std::sqrt(m_squareCostSum/static_cast<double>(m_performNumber) - mean*mean);
+CStatisticsCalculator IStrategy::getCostStatsCalculator() const {
+	return m_costStatsCalculator;
 }
 
 void IStrategy::computeCost() {
@@ -96,12 +88,6 @@ void IStrategy::restorePreviousResultIfItWasBetter() {
 		m_result = m_prevResult;
 		m_cost = m_prevCost;
 	}
-}
-
-void IStrategy::updateMeasureParams() {
-	++m_performNumber;
-	m_costSum += m_cost;
-	m_squareCostSum += m_cost * m_cost;
 }
 
 std::vector<int> IStrategy::initPermutation(unsigned N)

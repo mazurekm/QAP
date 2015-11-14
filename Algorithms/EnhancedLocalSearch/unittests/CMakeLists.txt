@@ -11,7 +11,7 @@ target_link_libraries (${PROJECT_NAME}
 		${Boost_SYSTEM_LIBRARY}
 		${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} )
 
-target_link_libraries(${PROJECT_NAME} Metropolis)
+target_link_libraries(${PROJECT_NAME} EnhancedLocalSearch) 
 target_link_libraries(${PROJECT_NAME} Utils)
 
 add_test(${PROJECT_NAME} ${TEST_DIR}/${PROJECT_NAME})

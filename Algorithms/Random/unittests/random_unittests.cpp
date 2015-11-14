@@ -31,7 +31,8 @@ BOOST_AUTO_TEST_CASE(test_random_with_instance)
 	for (int i = 0; i< 10; ++i) {
 		ptr->perform();
 		std::cout << ptr->getCost() << std::endl;
-		std::cout << ptr->getMeanCost() << " " << ptr->getStdDevCost() << std::endl;
+		auto costCalculator = ptr->getCostStatsCalculator();
+		std::cout << costCalculator.getMean() << " " << costCalculator.getStdDev() << std::endl;
 		BOOST_CHECK(ptr->getCost() >= cost);
 	}
 

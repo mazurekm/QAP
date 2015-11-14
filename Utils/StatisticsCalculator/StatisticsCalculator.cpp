@@ -10,6 +10,12 @@ void CStatisticsCalculator::update(double quantity) {
     ++samples;
 }
 
+void CStatisticsCalculator::reset() {
+    quantitySum = 0;
+    quantitySquareSum = 0;
+    samples = 0;
+}
+
 double CStatisticsCalculator::getMean() const {
     return quantitySum / samples;
 }
@@ -17,4 +23,8 @@ double CStatisticsCalculator::getMean() const {
 double CStatisticsCalculator::getStdDev() const {
     double mean = getMean();
     return std::sqrt(quantitySquareSum/samples - mean*mean);
+}
+
+double CStatisticsCalculator::getQuantitySum() const {
+    return quantitySum;
 }

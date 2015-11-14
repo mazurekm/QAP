@@ -5,7 +5,7 @@
 #include <Algorithms/LocalSearch/Greedy.h>
 #include <Algorithms/LocalSearch/Steepest.h>
 #include <Algorithms/LocalSearch/_3_Opt.h>
-#include <Algorithms/Metropolis/Metropolis.h>
+#include <Algorithms/EnhancedLocalSearch/Metropolis.h>
 
 IStrategy *CAlgorithmFactory::create(const std::string &name, 
 				     const Matrix &flow, 

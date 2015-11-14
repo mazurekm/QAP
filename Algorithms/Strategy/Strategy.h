@@ -2,6 +2,7 @@
 #define STRATEGY
 
 #include<vector>
+#include <Utils/StatisticsCalculator/StatisticsCalculator.h>
 
 typedef std::vector<std::vector<int> > Matrix;
 
@@ -14,8 +15,7 @@ public:
 
 	std::vector<int> getResult() const;
 	long getCost() const;
-	double getMeanCost() const;
-	double getStdDevCost() const;
+	CStatisticsCalculator getCostStatsCalculator() const;
 
 protected:
 	std::vector<int> initPermutation(unsigned N);
@@ -29,11 +29,10 @@ protected:
 
 	Matrix m_flow;
 	Matrix m_distance;
+	CStatisticsCalculator m_costStatsCalculator;
 
 	std::vector<int> m_result, m_prevResult;
 	long m_cost, m_prevCost, m_performNumber;
-	long m_costSum;
-	long double m_squareCostSum;
 };
 
 #endif

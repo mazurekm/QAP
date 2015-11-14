@@ -2,7 +2,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
-#include <Algorithms/Metropolis/Metropolis.h>
+#include <Algorithms/EnhancedLocalSearch/Metropolis.h>
 #include <Utils/InstanceLoader/InstanceLoader.h>
 #include <fstream>
 #include <string>
@@ -38,6 +38,7 @@ std::string data ="  12\n\n"
 
 std::string sln = "  12  224416\n"
    "   8 1 6 2 11 10 3 5 9 7 12 4";
+
 
 BOOST_AUTO_TEST_CASE(metropolis_test)
 {

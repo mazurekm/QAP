@@ -14,5 +14,6 @@ target_link_libraries (${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME} Stopwatch)
 target_link_libraries(${PROJECT_NAME} SmartStopwatch)
 target_link_libraries(${PROJECT_NAME} Strategy)
+target_link_libraries(${PROJECT_NAME} StatisticsCalculator)
 
 add_test(${PROJECT_NAME} ${TEST_DIR}/${PROJECT_NAME})
