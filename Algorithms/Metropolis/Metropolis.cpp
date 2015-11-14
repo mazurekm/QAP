@@ -4,7 +4,7 @@
 #include <cmath>
 
 CMetropolis::CMetropolis(const Matrix &flow, const Matrix &distance) :
-	IStrategy(flow, distance)
+	IStrategy(flow, distance), m_temperature(1200.0), m_alfa(0.95)
 {
 
 }
@@ -12,19 +12,29 @@ CMetropolis::CMetropolis(const Matrix &flow, const Matrix &distance) :
 void CMetropolis::setParameters(double temperature, double alfa)
 {
 	m_temperature = temperature;
+	m_adaptiveTemp = temperature;
 	if(alfa < 1 && alfa > 0)
 	{
 		m_alfa = alfa;	 
 	}
 }
 
-void CMetropolis::perfom()
+double CMetropolis::getAdaptiveTemp() const
+{
+	return m_adaptiveTemp;
+}
+
+double CMetropolis::getTemperature() const
+{
+	return m_temperature;
+}
+
+void CMetropolis::perform()
 {
 	m_result = initPermutation(m_distance.size());
 	computeCost();
 
-	auto L = m_distance.size() * m_distance.size() * 0.5;
-	auto k = 1;
+	unsigned K = 1;
 	bool foundBetter = true;
 	auto currentCost = m_cost;
 	double currentTemp = 0;
@@ -38,9 +48,9 @@ void CMetropolis::perfom()
 	do
 	{
 		foundBetter = false;
-		currentTemp = std::pow(m_alfa, k) * m_temperature;
+		currentTemp = std::pow(m_alfa, K) * m_adaptiveTemp;
 
-		for(size_t idx = 0; idx<L; ++idx)
+		for(size_t idx = 0; idx<K; ++idx)
 		{
 			int i = 0;
 			int j = 0;
@@ -54,16 +64,16 @@ void CMetropolis::perfom()
 			swapedIdxs = std::make_pair(i, j);
 			computeCost(swapedIdxs);
 
-			auto probValue = std::exp(-(m_cost - currentCost)/currentTemp);
-			if(probValue > realDist(randomGen))
+			auto accept = std::exp(-(m_cost - currentCost)/currentTemp);
+			if(accept > realDist(randomGen))
 			{
 				std::swap(m_result[i], m_result[j]);
 				currentCost = m_cost;
+				m_adaptiveTemp = currentTemp;
 				foundBetter = true;
 			} 
 		}
 
 	}
-	while(true == foundBetter);
-
+	while(true == foundBetter && currentTemp > 0);
 }
