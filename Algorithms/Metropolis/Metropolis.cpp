@@ -4,7 +4,7 @@
 #include <cmath>
 
 CMetropolis::CMetropolis(const Matrix &flow, const Matrix &distance) :
-	IStrategy(flow, distance), m_temperature(1200.0), m_alfa(0.95)
+	IStrategy(flow, distance), m_temperature(1200.0), m_alfa(0.97)
 {
 
 }
@@ -75,5 +75,5 @@ void CMetropolis::perform()
 		}
 
 	}
-	while(true == foundBetter && currentTemp > 0);
+	while(true == foundBetter);
 }

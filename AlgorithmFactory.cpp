@@ -5,6 +5,7 @@
 #include <Algorithms/LocalSearch/Greedy.h>
 #include <Algorithms/LocalSearch/Steepest.h>
 #include <Algorithms/LocalSearch/_3_Opt.h>
+#include <Algorithms/Metropolis/Metropolis.h>
 
 IStrategy *CAlgorithmFactory::create(const std::string &name, 
 				     const Matrix &flow, 
@@ -26,6 +27,10 @@ IStrategy *CAlgorithmFactory::create(const std::string &name,
 	else if("3_Opt" == name)
 	{
 		return new C_3_Opt(flow, distance, gatherCost);
+	}
+	else if("Metropolis" == name)
+	{
+		return new CMetropolis(flow, distance);
 	}
 
 	throw std::runtime_error("Incorrect algorithm");

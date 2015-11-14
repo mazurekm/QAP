@@ -6,6 +6,7 @@
 #include <Utils/InstanceLoader/InstanceLoader.h>
 #include <fstream>
 #include <string>
+#include <algorithm>
 
 std::string data ="  12\n\n"
 
@@ -54,9 +55,12 @@ BOOST_AUTO_TEST_CASE(metropolis_test)
 	CMetropolis alg(instance.flows, instance.distances);
 
 	alg.perform();
-	BOOST_CHECK_EQUAL(alg.getResult().size(), 12);
+	auto res = alg.getResult();
+	BOOST_CHECK_EQUAL(res.size(), 12);
 	BOOST_CHECK(alg.getCost()>=224416);
-
+	std::cout << alg.getCost() << std::endl;
+	std::for_each(res.begin(), res.end(), [](int el){std::cout << el << " ";});
+	std::cout << std::endl;
 	std::remove(std::string(path+"/test.dat").c_str());
 	std::remove(std::string(path+"/test.sln").c_str());
 }
