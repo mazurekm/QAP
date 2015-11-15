@@ -6,10 +6,14 @@
 #include <Algorithms/LocalSearch/Steepest.h>
 #include <Algorithms/LocalSearch/_3_Opt.h>
 #include <Algorithms/EnhancedLocalSearch/Metropolis.h>
+#include <Algorithms/EnhancedLocalSearch/TabuSearch.h>
+#include <boost/variant/get.hpp>
+#include <iostream>
 
 IStrategy *CAlgorithmFactory::create(const std::string &name, 
 				     const Matrix &flow, 
 				     const Matrix &distance,
+				     const std::unordered_map<std::string, Setting> & algSettings,
 				     bool gatherCost)
 {
 	if("Random" == name)
@@ -32,6 +36,24 @@ IStrategy *CAlgorithmFactory::create(const std::string &name,
 	{
 		return new CMetropolis(flow, distance);
 	}
+	else if ("TabuSearch" == name) {
+		return new CTabuSearch(flow, distance,
+		                       boost::get<std::string>(algSettings.at("CandidateListMainQuantity")),
+		                       unsigned(boost::get<double>(algSettings.at("NumberOfReviewedSolutionsForCandidatesList"))),
+		                       boost::get<double>(algSettings.at("RatioOfCandidates")),
+		                       boost::get<double>(algSettings.at("RatioOfCandidatesUsedToCalculateMean")),
+		                       boost::get<double>(algSettings.at("RatioOfTabuListLengthToSizeOfInstance")),
+		                       unsigned(boost::get<double>(algSettings.at("AspirationThreshold")))
+		                      );
+	}
 
 	throw std::runtime_error("Incorrect algorithm");
+}
+
+IStrategy *CAlgorithmFactory::create(const std::string &name, 
+				     const Matrix &flow, 
+				     const Matrix &distance,
+				     bool gatherCost) {
+	std::unordered_map<std::string, Setting> emptyAlgSettings;
+	return create(name, flow, distance, emptyAlgSettings, gatherCost);
 }

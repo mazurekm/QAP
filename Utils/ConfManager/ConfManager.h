@@ -7,6 +7,7 @@
 
 #include <json/json.h>
 #include <json/reader.h>
+#include <Utils/ConfManager/Setting.h>
 #include <stdexcept>
 
 class JsonNotFoundException : public std::runtime_error
@@ -55,7 +56,7 @@ public:
 	std::unordered_map<std::string, std::string> getInputData();
 	double getTimeLimit() const;
 	long getIterationLimit() const;
-	Json::Value getAlgParameters(const std::string &algName);
+	std::unordered_map<std::string, Setting> getAlgParameters(const std::string &algName);
 
 private:
 	CConfManager() {} 

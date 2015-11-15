@@ -71,18 +71,29 @@ std::unordered_map<std::string, std::string> CConfManager::getInputData()
 	return result;
 }
 
-Json::Value CConfManager::getAlgParameters(const std::string &algName)
+std::unordered_map<std::string, Setting> CConfManager::getAlgParameters(const std::string &algName)
 {
 	if(true == m_root.getMemberNames().empty())
 	{
 		throw ConfigurationNotLoaded();
 	}
+	std::unordered_map<std::string, Setting> result;
 
 	if(false == m_root["Strategy"].isMember(algName))
 	{
-		return Json::Value();
+		return result;
 	}
-	return m_root["Strategy"][algName]; 
+	for (auto & objIdx : m_root["Strategy"][algName].getMemberNames()) {
+		if (true == m_root["Strategy"][algName][objIdx].isString()) {
+			auto param = m_root["Strategy"][algName][objIdx].asString();
+			result[objIdx] = Setting(param);
+		}
+		else if (true == m_root["Strategy"][algName][objIdx].isDouble()) {
+			auto param = m_root["Strategy"][algName][objIdx].asDouble();
+			result[objIdx] = Setting(param);
+		}
+	}
+	return result; 
 }
 
 double CConfManager::getTimeLimit() const

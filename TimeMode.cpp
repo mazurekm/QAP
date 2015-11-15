@@ -18,12 +18,14 @@ void CTimeMode::perform()
 		m_csv.add("Size", "Time", "TimeDeviation", "BestCost", "MeanCost","CostDeviation", "CostOptDist", 
 				"MeanCostOptDist", "MeanSteps", "StepsDeviation", "MeanNumSolutions", "NumSolutionsDeviation");
 		std::clog << "--------------- " << strategy << " ---------------" << std::endl;
+		auto algSettings = CConfManager::getInstance().getAlgParameters(strategy);
 		for(auto & instance : instanceMap) 
 		{
 			std::shared_ptr<IStrategy> currentAlgorithm (
 		    	m_algorithmFactory.create(strategy, 
 		    							instance.second.flows, 
-		    							instance.second.distances
+		    							instance.second.distances,
+		    							algSettings
 		    	)
 			);
 

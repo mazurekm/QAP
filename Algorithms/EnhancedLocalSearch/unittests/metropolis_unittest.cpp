@@ -7,6 +7,7 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <iostream>
 
 std::string data ="  12\n\n"
 
