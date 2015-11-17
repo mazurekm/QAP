@@ -3,15 +3,13 @@
 #include <random>
 #include <cmath>
 
-CMetropolis::CMetropolis(const Matrix &flow, const Matrix &distance) :
-	IEnhancedLocalSearch(flow, distance), m_temperature(8000), m_alfa(0.95)
+CMetropolis::CMetropolis(const Matrix &flow, const Matrix &distance, 
+						 double temperature, double alfa) :
+	IEnhancedLocalSearch(flow, distance), 
+	m_temperature(temperature), 
+	m_alfa(0.95)
 {
 
-}
-
-void CMetropolis::setParameters(double temperature, double alfa)
-{
-	m_temperature = temperature;	
 	if(alfa < 1 && alfa > 0)
 	{
 		m_alfa = alfa;	 

@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE(metropolis_test)
 
 	InstanceLoader loader(path+"/test.dat", path+"/test.sln");
 	auto instance = loader.load();
-	CMetropolis alg(instance.flows, instance.distances);
+	CMetropolis alg(instance.flows, instance.distances, 8000, 0.95);
 
 	alg.perform();
 	auto res = alg.getResult();

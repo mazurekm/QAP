@@ -6,8 +6,7 @@
 class CMetropolis : public IEnhancedLocalSearch
 {
 public:
-	CMetropolis(const Matrix &flow, const Matrix &distance);
-	void setParameters(double temperature, double alfa);
+	CMetropolis(const Matrix &flow, const Matrix &distance, double temperature, double alfa);
 	double getTemperature() const;
 
 private:

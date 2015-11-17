@@ -34,7 +34,14 @@ IStrategy *CAlgorithmFactory::create(const std::string &name,
 	}
 	else if("Metropolis" == name)
 	{
-		return new CMetropolis(flow, distance);
+
+		auto metropolis = new CMetropolis(
+						flow, distance,
+						boost::get<double>(algSettings.at("Temperature")),
+						boost::get<double>(algSettings.at("Alfa"))
+		);
+
+		return metropolis;
 	}
 	/*else if ("TabuSearch" == name) {
 		return new CTabuSearch(flow, distance,
