@@ -36,7 +36,7 @@ IStrategy *CAlgorithmFactory::create(const std::string &name,
 	{
 		return new CMetropolis(flow, distance);
 	}
-	else if ("TabuSearch" == name) {
+	/*else if ("TabuSearch" == name) {
 		return new CTabuSearch(flow, distance,
 		                       boost::get<std::string>(algSettings.at("CandidateListMainQuantity")),
 		                       unsigned(boost::get<double>(algSettings.at("NumberOfReviewedSolutionsForCandidatesList"))),
@@ -45,7 +45,7 @@ IStrategy *CAlgorithmFactory::create(const std::string &name,
 		                       boost::get<double>(algSettings.at("RatioOfTabuListLengthToSizeOfInstance")),
 		                       unsigned(boost::get<double>(algSettings.at("AspirationThreshold")))
 		                      );
-	}
+	}*/
 
 	throw std::runtime_error("Incorrect algorithm");
 }

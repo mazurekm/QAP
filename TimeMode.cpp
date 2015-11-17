@@ -1,5 +1,6 @@
 #include "TimeMode.h"
 #include <Algorithms/LocalSearch/LocalSearch.h>
+#include <Algorithms/EnhancedLocalSearch/EnhancedLocalSearch.h>
 
 #include <boost/algorithm/string.hpp>
 
@@ -69,10 +70,19 @@ void CTimeMode::setStatsCalculators(const std::shared_ptr<IStrategy> & currentAl
 		{"reviewedSolutionsStats", CStatisticsCalculator()}
 	};
 
-	auto ptr = std::dynamic_pointer_cast<ILocalSearch>(currentAlgorithm);
-	if (nullptr != ptr)
+	auto lsCastResult = std::dynamic_pointer_cast<ILocalSearch>(currentAlgorithm);
+	auto elsCastResult = std::dynamic_pointer_cast<IEnhancedLocalSearch>(currentAlgorithm);
+
+
+	if (nullptr != lsCastResult)
 	{
-		statsCalculatorMap.at("stepsStats") = ptr->getStepsStatsCalculator();
-		statsCalculatorMap.at("reviewedSolutionsStats") = ptr->getReviewedSolutionsStatsCalculator();
+		statsCalculatorMap.at("stepsStats") = lsCastResult->getStepsStatsCalculator();
+		statsCalculatorMap.at("reviewedSolutionsStats") = lsCastResult->getReviewedSolutionsStatsCalculator();
+	}
+
+	if (nullptr != elsCastResult)
+	{
+		statsCalculatorMap.at("stepsStats") = elsCastResult->getStepsStatsCalculator();
+		statsCalculatorMap.at("reviewedSolutionsStats") = elsCastResult	->getReviewedSolutionsStatsCalculator();
 	}
 }

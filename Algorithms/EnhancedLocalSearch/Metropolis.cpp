@@ -4,24 +4,18 @@
 #include <cmath>
 
 CMetropolis::CMetropolis(const Matrix &flow, const Matrix &distance) :
-	IEnhancedLocalSearch(flow, distance), m_temperature(1200), m_alfa(0.95)
+	IEnhancedLocalSearch(flow, distance), m_temperature(8000), m_alfa(0.95)
 {
 
 }
 
 void CMetropolis::setParameters(double temperature, double alfa)
 {
-	m_temperature = temperature;
-	m_adaptiveTemp = temperature;
+	m_temperature = temperature;	
 	if(alfa < 1 && alfa > 0)
 	{
 		m_alfa = alfa;	 
 	}
-}
-
-double CMetropolis::getAdaptiveTemp() const
-{
-	return m_adaptiveTemp;
 }
 
 double CMetropolis::getTemperature() const
@@ -29,28 +23,26 @@ double CMetropolis::getTemperature() const
 	return m_temperature;
 }
 
-void CMetropolis::perform()
+void CMetropolis::performWithin()
 {
-	m_result = initPermutation(m_distance.size());
-	computeCost();
-
-	unsigned K = 1;
-	bool foundBetter = true;
+	unsigned K = 0;
 	auto currentCost = m_cost;
 	double currentTemp = 0;
 	auto swapedIdxs = std::make_pair(0,0);
+	auto adaptiveTemp = m_temperature;
 
 	std::random_device rd;
     std::mt19937 randomGen(rd());
     std::uniform_int_distribution<int> intDist(0, m_distance.size()-1);
     std::uniform_real_distribution<double> realDist(0.0, 1.0);
-
+    //auto maxGradient = std::log(m_alfa) * m_temperature * m_temperature; 
+	
 	do
 	{
-		foundBetter = false;
-		currentTemp = std::pow(m_alfa, K) * m_adaptiveTemp;
-
-		for(size_t idx = 0; idx<K; ++idx)
+		currentTemp = std::pow(m_alfa, K) * m_temperature;
+		++m_steps;
+		//unsigned L = std::log( maxGradient / ( currentTemp * std::pow(m_alfa, K) * std::log(m_alfa) * m_temperature) );
+		for(size_t idx = 0; idx<m_distance.size()*m_distance.size()/2; ++idx)
 		{
 			int i = 0;
 			int j = 0;
@@ -63,17 +55,23 @@ void CMetropolis::perform()
 
 			swapedIdxs = std::make_pair(i, j);
 			computeCost(swapedIdxs);
+			++m_reviewedSolutions;
 
 			auto accept = std::exp(-(m_cost - currentCost)/currentTemp);
 			if(accept > realDist(randomGen))
 			{
 				std::swap(m_result[i], m_result[j]);
 				currentCost = m_cost;
-				m_adaptiveTemp = currentTemp;
-				foundBetter = true;
+				adaptiveTemp = currentTemp;
 			} 
+			else
+			{
+				m_cost = currentCost;
+			}
 		}
 
+		++K;
 	}
-	while(true == foundBetter);
+	while(currentTemp > 1);
+	m_temperature = adaptiveTemp;
 }
