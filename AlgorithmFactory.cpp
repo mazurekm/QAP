@@ -37,7 +37,7 @@ IStrategy *CAlgorithmFactory::create(const std::string &name,
 
 		auto metropolis = new CMetropolis(
 						flow, distance,
-						boost::get<double>(algSettings.at("Temperature")),
+						boost::get<double>(algSettings.at("Samples")),
 						boost::get<double>(algSettings.at("Alfa"))
 		);
 

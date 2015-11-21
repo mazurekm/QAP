@@ -2,18 +2,22 @@
 #include <utility>
 #include <random>
 #include <cmath>
+#include <iostream>
 
 CMetropolis::CMetropolis(const Matrix &flow, const Matrix &distance, 
-						 double temperature, double alfa) :
+						 unsigned samples, double alfa) :
 	IEnhancedLocalSearch(flow, distance), 
-	m_temperature(temperature), 
-	m_alfa(0.95)
+	m_temperature(0), 
+	m_alfa(alfa),
+	m_samplesNum(samples)
 {
 
 	if(alfa < 1 && alfa > 0)
 	{
 		m_alfa = alfa;	 
 	}
+
+	computeInitTemp();
 }
 
 double CMetropolis::getTemperature() const
@@ -25,14 +29,9 @@ void CMetropolis::performWithin()
 {
 	unsigned K = 0;
 	auto currentCost = m_cost;
+	auto bestLocalCost = m_cost;
 	double currentTemp = 0;
 	auto swapedIdxs = std::make_pair(0,0);
-	auto adaptiveTemp = m_temperature;
-
-	std::random_device rd;
-    std::mt19937 randomGen(rd());
-    std::uniform_int_distribution<int> intDist(0, m_distance.size()-1);
-    std::uniform_real_distribution<double> realDist(0.0, 0.999);
 
 	do
 	{
@@ -46,8 +45,8 @@ void CMetropolis::performWithin()
 
 			while(i == j)
 			{
-				i = intDist(randomGen);
-				j = intDist(randomGen);
+				i = getRandomInt(0, m_distance.size()-1);
+				j = getRandomInt(0, m_distance.size()-1);
 			}
 
 			swapedIdxs = std::make_pair(i, j);
@@ -58,13 +57,17 @@ void CMetropolis::performWithin()
 			{
 				std::swap(m_result[i], m_result[j]);
 				currentCost = m_cost;
-				adaptiveTemp = currentTemp;
+
+				if(m_cost < bestLocalCost)
+				{
+					bestLocalCost = m_cost;
+				}
 			}
 			else 
 			{
 				auto accept = std::exp(-(m_cost - currentCost)/currentTemp);
 
-				if(accept > realDist(randomGen))
+				if(accept > getRandomReal(0,1))
 				{
 					std::swap(m_result[i], m_result[j]);
 					currentCost = m_cost;
@@ -79,5 +82,54 @@ void CMetropolis::performWithin()
 		++K;
 	}
 	while(currentTemp > 0.5);
-	m_temperature = adaptiveTemp;
+
+	if(bestLocalCost < m_cost)
+	{
+		m_cost = bestLocalCost;
+	}
+}
+
+void CMetropolis::computeInitTemp()
+{
+	for(unsigned idx = 0; idx<m_samplesNum; ++idx)
+	{
+		auto sol = initPermutation(m_distance.size());
+		auto neigh = sol;
+
+		int i = 0;
+		int j = 0;
+
+		while(i == j)
+		{
+			i = getRandomInt(0, m_distance.size()-1);
+			j = getRandomInt(0, m_distance.size()-1);
+		}
+
+		std::swap(neigh[i], neigh[j]);
+
+		auto e1 = computeCost(sol);
+		auto e2 = computeCost(neigh);
+
+		if(m_temperature < std::abs(e1-e2))
+		{
+			m_temperature = std::abs(e1-e2);
+		}
+
+	}
+}
+
+int CMetropolis::getRandomInt(int lhs, int rhs)
+{
+	std::random_device rd;
+    std::mt19937 randomGen(rd());
+    std::uniform_int_distribution<int> intDist(lhs, rhs);
+    return intDist(randomGen);
+}
+
+double CMetropolis::getRandomReal(double lhs, double rhs)
+{
+	std::random_device rd;
+    std::mt19937 randomGen(rd());
+    std::uniform_real_distribution<double> realDist(lhs, rhs);
+    return realDist(randomGen);
 }

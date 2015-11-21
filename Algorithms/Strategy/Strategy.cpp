@@ -31,22 +31,29 @@ CStatisticsCalculator IStrategy::getCostStatsCalculator() const {
 }
 
 void IStrategy::computeCost() {
-	m_cost = 0;
-	for (size_t i = 0; i<m_result.size(); ++i) 
+	m_cost = computeCost(m_result);	
+}
+
+long IStrategy::computeCost(const std::vector<int> &sol)
+{
+	long res = 0;
+	for (size_t i = 0; i<sol.size(); ++i) 
 	{
-		for (size_t j = 0; j<m_result.size(); ++j)
+		for (size_t j = 0; j<sol.size(); ++j)
 		{
 			try
 			{
-				m_cost += m_distance.at(m_result[i]).at(m_result[j]) * m_flow.at(i).at(j);
+				res += m_distance.at(sol[i]).at(sol[j]) * m_flow.at(i).at(j);
 			}
 			catch(std::out_of_range & ex)
 			{
 				std::clog << ex.what() << std::endl;
-				return;
+				return 0;
 			}
 		}
 	}
+
+	return res;
 }
 
 // computeCost should be called before swap

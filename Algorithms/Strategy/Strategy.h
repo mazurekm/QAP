@@ -21,6 +21,8 @@ protected:
 	std::vector<int> initPermutation(unsigned N);
 	virtual void computeCost();
 	virtual void computeCost(const std::pair<int, int> &);
+	virtual long computeCost(const std::vector<int> &sol);
+
 	void substractFromCostAllArcsBoundWithPair(const std::pair<int, int> &);
 	void addToCostAllArcsBoundWithPair(const std::pair<int, int> &);
 	void restorePreviousResultIfItWasBetter();
