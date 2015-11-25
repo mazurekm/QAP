@@ -80,7 +80,7 @@ void CTimeMode::setStatsCalculators(const std::shared_ptr<IStrategy> & currentAl
 		statsCalculatorMap.at("reviewedSolutionsStats") = lsCastResult->getReviewedSolutionsStatsCalculator();
 	}
 
-	if (nullptr != elsCastResult)
+	else if (nullptr != elsCastResult)
 	{
 		statsCalculatorMap.at("stepsStats") = elsCastResult->getStepsStatsCalculator();
 		statsCalculatorMap.at("reviewedSolutionsStats") = elsCastResult	->getReviewedSolutionsStatsCalculator();

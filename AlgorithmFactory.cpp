@@ -43,16 +43,19 @@ IStrategy *CAlgorithmFactory::create(const std::string &name,
 
 		return metropolis;
 	}
-	/*else if ("TabuSearch" == name) {
-		return new CTabuSearch(flow, distance,
-		                       boost::get<std::string>(algSettings.at("CandidateListMainQuantity")),
-		                       unsigned(boost::get<double>(algSettings.at("NumberOfReviewedSolutionsForCandidatesList"))),
-		                       boost::get<double>(algSettings.at("RatioOfCandidates")),
-		                       boost::get<double>(algSettings.at("RatioOfCandidatesUsedToCalculateMean")),
-		                       boost::get<double>(algSettings.at("RatioOfTabuListLengthToSizeOfInstance")),
-		                       unsigned(boost::get<double>(algSettings.at("AspirationThreshold")))
-		                      );
-	}*/
+	else if ("TabuSearch" == name) {
+        CTabuListController tabuListController(
+            flow.size(),
+            boost::get<double>(algSettings.at("RatioOfTabuPeriodToSizeOfInstance")),
+            unsigned(boost::get<double>(algSettings.at("AspirationThreshold")))
+        );
+        return new CTabuSearch(flow, distance, tabuListController,
+                               boost::get<std::string>(algSettings.at("CandidateListMainQuantity")),
+                               boost::get<double>(algSettings.at("RatioOfReviewedSolutionsForCandidatesList")),
+                               boost::get<double>(algSettings.at("RatioOfCandidates")),
+                               gatherCost
+                              );
+    }
 
 	throw std::runtime_error("Incorrect algorithm");
 }
