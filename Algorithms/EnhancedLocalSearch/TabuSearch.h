@@ -25,7 +25,7 @@ class CTabuSearch : public IEnhancedLocalSearch {
     void insertMoveAsCandidateIfFitEnough(const std::pair<int, int> &);
     long computeMoveCost(const std::pair<int, int> &);
     void performWithin();
-    void setCandidateMinCostAsThreshold();
+    void setCandidateMaxCostAsThreshold();
     void updateResultAndCost(); 
     
 public:

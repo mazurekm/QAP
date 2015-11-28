@@ -69,7 +69,6 @@ long MockTabuSearch::computeCostWrapper(const std::pair<int, int> & pair) {
 }
 
 std::vector<Candidate> MockTabuSearch::constructAndGetCandidateListWrapper() {
-    setBestCandidate();
     constructCandidateListIfCostIncreasedTooMuch();
     return m_candidateList;
 }

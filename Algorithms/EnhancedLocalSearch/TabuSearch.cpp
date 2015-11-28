@@ -80,6 +80,7 @@ void CTabuSearch::constructCandidateListIfCostIncreasedTooMuch() {
     for (size_t i = 0; i<m_result.size(); ++i) {
         for (size_t j = i+1; j<m_result.size(); ++j) {
             if (solutionsReviewed == m_solutionsToReview) {
+                setCandidateMaxCostAsThreshold();
                 return;
             }
             std::pair<int, int> move(i, j);
@@ -87,7 +88,6 @@ void CTabuSearch::constructCandidateListIfCostIncreasedTooMuch() {
             ++solutionsReviewed;
         }
     }
-    setCandidateMinCostAsThreshold();
 }
 
 void CTabuSearch::insertMoveAsCandidateIfFitEnough(const std::pair<int, int> & move) {
@@ -113,14 +113,8 @@ long CTabuSearch::computeMoveCost(const std::pair<int, int> & move) {
     return moveCost;
 }
 
-void CTabuSearch::setCandidateMinCostAsThreshold() {
-    long maxCost = 0;
-    std::for_each(m_candidateList.begin(), m_candidateList.end(), [&](const Candidate cand) {
-        if (maxCost < cand.cost) {
-            maxCost = cand.cost;
-        }
-    });
-    m_candidateCostThreshold = maxCost;
+void CTabuSearch::setCandidateMaxCostAsThreshold() {
+    m_candidateCostThreshold = m_candidateList.front().cost;
 }
 
 void CTabuSearch::updateResultAndCost() {
