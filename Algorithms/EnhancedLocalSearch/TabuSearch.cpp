@@ -25,6 +25,7 @@ CTabuSearch::CTabuSearch(const Matrix &flow, const Matrix &distance, const CTabu
 
 void CTabuSearch::performWithin() {
     size_t stepsWithoutImprovement = 0;
+    size_t stepsWithoutImprovementLimit = std::max(10, int(m_distance.size() / 2));
     m_candidateCostThreshold = 0;
     m_tabuListController.reset();
     updateResultAndCost();
@@ -33,7 +34,8 @@ void CTabuSearch::performWithin() {
         std::fill(row.begin(), row.end(), 0);
     }
 
-    while (stepsWithoutImprovement < 100) {
+    while (stepsWithoutImprovement < stepsWithoutImprovementLimit) {
+        ++m_steps;
         constructCandidateListIfCostIncreasedTooMuch();
         setBestCandidate();
         if (InvalidIndex == m_bestCandidate.move.first) {
@@ -61,6 +63,7 @@ void CTabuSearch::setBestCandidate() {
     m_bestCandidate = {std::pair<int, int>(InvalidIndex, InvalidIndex), LONG_MAX};
     for (auto & candidate : m_candidateList) {
         candidate.cost = computeMoveCost(candidate.move);
+        ++m_reviewedSolutions;
         if (m_tabuListController.isMoveTabu(candidate.move)
             && false == m_tabuListController.isMoveSatisfyingAspirationCriteria(m_cost, candidate.cost)) {
             continue;
@@ -80,6 +83,8 @@ void CTabuSearch::constructCandidateListIfCostIncreasedTooMuch() {
     for (size_t i = 0; i<m_result.size(); ++i) {
         for (size_t j = i+1; j<m_result.size(); ++j) {
             if (solutionsReviewed == m_solutionsToReview) {
+                m_reviewedSolutions += solutionsReviewed - m_candidateList.size();
+                // reviewedSolutions are also incremented in setBestCandidate()
                 setCandidateMaxCostAsThreshold();
                 return;
             }
