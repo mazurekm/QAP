@@ -13,18 +13,22 @@ void CIterationCostMode::perform()
 	for(auto & strategy : CConfManager::getInstance().getStrategies())
 	{
 		std::clog << "--------------- " << strategy << " ---------------" << std::endl;
+		auto algSettings = CConfManager::getInstance().getAlgParameters(strategy);
+
 		for(auto & instance : instanceMap) 
 		{
 			std::shared_ptr<IStrategy> currentAlgorithm (
 		    	m_algorithmFactory.create(strategy, 
 		    							instance.second.flows, 
-		    							instance.second.distances
+		    							instance.second.distances,
+		    							algSettings
 		    	)
 			);
 
 			m_csv.add("iterations", "bestCost", "meanCost", "deviation");
 			for(unsigned idx = 50; idx <= 400; idx+=50 )
 			{
+				std::clog << "Computing " << idx << " iterations" << std::endl;
 				m_stopWatch.measureExecutionTime(currentAlgorithm, static_cast<long>(idx));
 				auto cost = currentAlgorithm->getCost();
 				auto costStatsCalculator = currentAlgorithm->getCostStatsCalculator();
